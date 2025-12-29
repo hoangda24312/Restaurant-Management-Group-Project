@@ -116,7 +116,7 @@
             <mxPoint x="390" y="470" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="KY_VmpZZCRmxwcG_mZ_M-39" value="TAable Status&lt;div&gt;Update&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" parent="KY_VmpZZCRmxwcG_mZ_M-38" connectable="0" vertex="1">
+        <mxCell id="KY_VmpZZCRmxwcG_mZ_M-39" value="Table Status&lt;div&gt;Update&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" parent="KY_VmpZZCRmxwcG_mZ_M-38" connectable="0" vertex="1">
           <mxGeometry x="0.2321" y="-1" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
@@ -129,7 +129,7 @@
         </mxCell>
         <mxCell id="KY_VmpZZCRmxwcG_mZ_M-41" value="Ready&lt;div&gt;Notification&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" parent="KY_VmpZZCRmxwcG_mZ_M-40" connectable="0" vertex="1">
           <mxGeometry x="0.5043" y="2" relative="1" as="geometry">
-            <mxPoint as="offset" />
+            <mxPoint x="16" y="8" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="KY_VmpZZCRmxwcG_mZ_M-47" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;exitX=0;exitY=0;exitDx=0;exitDy=0;entryX=0.196;entryY=0.923;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="KY_VmpZZCRmxwcG_mZ_M-3" target="KY_VmpZZCRmxwcG_mZ_M-12" edge="1">
