@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.2.9">
   <diagram name="Page-1" id="EBhCfrxlpfQHLTxIqrhp">
-    <mxGraphModel dx="1708" dy="756" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1140" dy="622" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -28,6 +28,21 @@
         <mxCell id="KY_VmpZZCRmxwcG_mZ_M-44" connectable="0" parent="KY_VmpZZCRmxwcG_mZ_M-43" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" value="Table Status&amp;nbsp;&lt;div&gt;View&lt;/div&gt;" vertex="1">
           <mxGeometry relative="1" x="-0.17" as="geometry">
             <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xXZzdXGonyXe6LfCy92N-8" edge="1" parent="1" source="KY_VmpZZCRmxwcG_mZ_M-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;exitX=0.646;exitY=1.002;exitDx=0;exitDy=0;exitPerimeter=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="439" y="520" />
+              <mxPoint x="440" y="520" />
+            </Array>
+            <mxPoint x="440" y="451.6515138991167" as="sourcePoint" />
+            <mxPoint x="440" y="730" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xXZzdXGonyXe6LfCy92N-9" connectable="0" parent="xXZzdXGonyXe6LfCy92N-8" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="save/update data" vertex="1">
+          <mxGeometry relative="1" x="0.4793" y="2" as="geometry">
+            <mxPoint x="28" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="KY_VmpZZCRmxwcG_mZ_M-12" parent="1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" value="0.0 R&lt;span style=&quot;color: rgb(8, 27, 58); font-family: SegoeuiPc, &amp;quot;Segoe UI&amp;quot;, &amp;quot;San Francisco&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Lucida Grande&amp;quot;, Roboto, Ubuntu, Tahoma, &amp;quot;Microsoft Sans Serif&amp;quot;, Arial, sans-serif; font-size: 15px; letter-spacing: 0.2px; text-align: start; white-space-collapse: preserve; background-color: rgb(255, 255, 255);&quot;&gt;estaurant Order Management System&lt;/span&gt;" vertex="1">
@@ -77,10 +92,10 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="KY_VmpZZCRmxwcG_mZ_M-26" edge="1" parent="1" source="KY_VmpZZCRmxwcG_mZ_M-12" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;exitX=0.758;exitY=0.923;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.003;entryY=0.325;entryDx=0;entryDy=0;entryPerimeter=0;" target="KY_VmpZZCRmxwcG_mZ_M-6" value="">
+        <mxCell id="KY_VmpZZCRmxwcG_mZ_M-26" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;exitX=0.758;exitY=0.923;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0;entryDx=0;entryDy=0;" target="KY_VmpZZCRmxwcG_mZ_M-6" value="">
           <mxGeometry height="50" relative="1" width="50" as="geometry">
-            <mxPoint x="360" y="380" as="sourcePoint" />
-            <mxPoint x="410" y="330" as="targetPoint" />
+            <mxPoint x="479.9999999999999" y="429.9999999999999" as="sourcePoint" />
+            <mxPoint x="658.88" y="677.4" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="KY_VmpZZCRmxwcG_mZ_M-27" connectable="0" parent="KY_VmpZZCRmxwcG_mZ_M-26" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" value="Payment Request" vertex="1">
@@ -171,7 +186,7 @@
             <mxPoint x="390" y="470" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="KY_VmpZZCRmxwcG_mZ_M-54" connectable="0" parent="KY_VmpZZCRmxwcG_mZ_M-52" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" value="Kitchen Order Ticket" vertex="1">
+        <mxCell id="KY_VmpZZCRmxwcG_mZ_M-54" connectable="0" parent="KY_VmpZZCRmxwcG_mZ_M-52" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="Kitchen Order Ticket" vertex="1">
           <mxGeometry relative="1" x="-0.3098" y="4" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
@@ -242,15 +257,42 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="KY_VmpZZCRmxwcG_mZ_M-70" edge="1" parent="1" source="KY_VmpZZCRmxwcG_mZ_M-6" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0.635;entryY=0.984;entryDx=0;entryDy=0;entryPerimeter=0;" target="KY_VmpZZCRmxwcG_mZ_M-12" value="">
+        <mxCell id="KY_VmpZZCRmxwcG_mZ_M-70" edge="1" parent="1" source="KY_VmpZZCRmxwcG_mZ_M-6" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.635;entryY=0.984;entryDx=0;entryDy=0;entryPerimeter=0;" value="">
           <mxGeometry height="50" relative="1" width="50" as="geometry">
-            <mxPoint x="440" y="520" as="sourcePoint" />
-            <mxPoint x="490" y="470" as="targetPoint" />
+            <mxPoint x="653" y="753.2" as="sourcePoint" />
+            <mxPoint x="450" y="449.99999999999994" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="KY_VmpZZCRmxwcG_mZ_M-71" connectable="0" parent="KY_VmpZZCRmxwcG_mZ_M-70" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" value="Transaction&lt;div&gt;Status&lt;/div&gt;" vertex="1">
           <mxGeometry relative="1" x="-0.1595" y="2" as="geometry">
             <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xXZzdXGonyXe6LfCy92N-2" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0.635;entryY=0.984;entryDx=0;entryDy=0;entryPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="733" y="643" as="sourcePoint" />
+            <mxPoint x="530" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xXZzdXGonyXe6LfCy92N-3" connectable="0" parent="xXZzdXGonyXe6LfCy92N-2" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" value="Transaction&lt;div&gt;Status&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.1595" y="2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xXZzdXGonyXe6LfCy92N-5" parent="1" style="html=1;dashed=0;whiteSpace=wrap;shape=partialRectangle;right=0;left=0;" value="DATABASE" vertex="1">
+          <mxGeometry height="30" width="100" x="375" y="730" as="geometry" />
+        </mxCell>
+        <mxCell id="xXZzdXGonyXe6LfCy92N-6" edge="1" parent="1" source="xXZzdXGonyXe6LfCy92N-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.545;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;endSize=8;" target="KY_VmpZZCRmxwcG_mZ_M-12">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="419" y="660" />
+              <mxPoint x="419" y="660" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xXZzdXGonyXe6LfCy92N-7" connectable="0" parent="xXZzdXGonyXe6LfCy92N-6" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="retrieve data" vertex="1">
+          <mxGeometry relative="1" x="-0.0578" y="3" as="geometry">
+            <mxPoint x="-26" y="7" as="offset" />
           </mxGeometry>
         </mxCell>
       </root>
