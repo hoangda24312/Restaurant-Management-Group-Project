@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="RestaurantOrderManagement/RestaurantOrderManagement.vcxproj" />
+  <Project Path="RestaurantOrderManagement/RestaurantOrderManagement.vcxproj" Id="01258958-b83f-4186-ae89-7681294250a7" />
 </Solution>

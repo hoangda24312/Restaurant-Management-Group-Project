@@ -5,7 +5,7 @@ Staff::Staff(const std::string& staff_id, const std::string& staff_name, const s
 {
 }
 
-bool Staff::login(std::string& staff_id, std::string& password);
+bool Staff::login(std::string& staff_id, std::string& password)
 {
 	return true;
 }
