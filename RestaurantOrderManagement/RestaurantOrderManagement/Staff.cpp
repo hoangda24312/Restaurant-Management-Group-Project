@@ -5,8 +5,17 @@ Staff::Staff(const std::string& staff_id, const std::string& staff_name, const s
 {
 }
 
+bool Staff::login(std::string& staff_id, std::string& password);
+{
+	return true;
+}
 
 std::string Staff::getName()
 {
 	return this->staff_name;
+}
+
+std::string Staff::getRole()
+{
+	return this->role;
 }

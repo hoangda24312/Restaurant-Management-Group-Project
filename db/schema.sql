@@ -1,7 +1,5 @@
 create database RestaurantOrderManagement;
 
-use RestaurantOrderManagement;
-
 create table Staff
 (
 	staff_id char(5) primary key not null,
