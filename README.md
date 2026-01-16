@@ -2,17 +2,19 @@
 
 {
 
-&nbsp; "mysqlx": {
+  "mysqlx": {
 
-&nbsp;   "host": "tcp://127.0.0.1:3306",
+    "host": "tcp://127.0.0.1:3306",
 
-&nbsp;   "password": "yourpassword",
+    "password": "yourpassword",
 
-&nbsp;   "schema": "RestaurantOrderManagement",
+    "schema": "RestaurantOrderManagement",
 
-&nbsp;   "username": "root"
+    "username": "root"
 
-&nbsp; }
+  }
 
 }
+
+you will put json file with name db\_config in a folder name config and you will put that folder inside RestaurantOrderManagement/RestaurantOrderManagement
 
