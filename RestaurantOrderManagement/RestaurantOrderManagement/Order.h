@@ -1,6 +1,7 @@
 #pragma once
 #include<chrono>
 #include"Database.h"
+#include "OrderItem.h"
 //enum status
 enum class OrderStatus
 {
@@ -28,8 +29,20 @@ public:
 	int getTableNumber;
 	std::chrono::system_clock::time_point getOrderTime();
 	OrderStatus getStatus();
-	std::vector < vector<OrderItem> getOrderItems();
+	std::vector < std::vector<OrderItem>> getOrderItems();
 	std::string getNote();
+	static std::vector<std::vector<Order>> getAllOrders();
+	static Order getOrderById(int order_id);
+	void addOrderItem(OrderItem item);
+	void removeOrderItem(std::string order_item_id);
+	void updateOrderItemQuantity(std::string order_item_id, int quantity);
+	void cancel();
+	void sendToKitchen();
+	void markPreparing();
+	void markReady();
+	void markCompleted();
+	Order create(int table_number, std::string note, std::string customer_name);
+	void setStatus(OrderStatus status);
 
 
 };
