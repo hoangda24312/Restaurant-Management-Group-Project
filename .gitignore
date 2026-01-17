@@ -6,4 +6,4 @@ x64/
 *.dll
 *.pdb
 *.user
-config/db_config.json
+RestaurantOrderManagement/RestaurantOrderManagement/config/db_config.json
