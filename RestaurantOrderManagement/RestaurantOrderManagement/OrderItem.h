@@ -1,4 +1,5 @@
 #include "MenuItem.h"
+#pragma once
 
 class OrderItem
 {

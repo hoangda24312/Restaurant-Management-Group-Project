@@ -1,5 +1,5 @@
 #include "common.h"
-
+#pragma once
 class Customer
 {
 private:

@@ -1,4 +1,5 @@
 #include "common.h"
+#pragma once
 class Staff
 {
 private:
