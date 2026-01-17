@@ -23,7 +23,7 @@ private:
 	std::string customer_name;
 public:
 	int getOrderId();
-	int getTableNumber;
+	int getTableNumber();
 	std::chrono::system_clock::time_point getOrderTime();
 	OrderStatus getStatus();
 	std::vector < std::vector<OrderItem>> getOrderItems();
