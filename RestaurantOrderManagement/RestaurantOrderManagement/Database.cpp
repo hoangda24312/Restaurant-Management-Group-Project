@@ -39,6 +39,11 @@ Database::~Database()
 	delete con;
 }
 
+sql::Connection* Database::getConnection()
+{
+	return con;
+}
+
 sql::ResultSet* Database::select(const std::string& sql)
 {
 	sql::Statement* stmt = con->createStatement();
