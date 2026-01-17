@@ -44,11 +44,12 @@ Database::~Database()
 
 sql::ResultSet* Database::select(const std::string& sql)
 {
-	return 0;
+	sql::Statement* stmt = con->createStatement();
+	return stmt->executeQuery(sql);
 }
 sql::PreparedStatement* Database::prepare(const std::string& sql)
 {
-	return 0;
+	return con->prepareStatement(sql);
 }
 
 Database db;

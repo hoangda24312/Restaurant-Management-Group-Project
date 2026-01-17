@@ -1,0 +1,9 @@
+{
+  "mysqlx": {
+    "host": "localhost",
+    "password": "thurung243",
+    "port": 33060,
+    "schema": "RestaurantOrderManagement",
+    "username": "root"
+  }
+}
