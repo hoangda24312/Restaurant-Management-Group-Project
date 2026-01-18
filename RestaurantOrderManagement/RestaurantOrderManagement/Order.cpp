@@ -72,6 +72,12 @@ void Order::cancel()
 		throw std::logic_error("Order already cooked, can't cancel");
 	}
 	this->status = OrderStatus::CANCELLED;
+	auto& db = Database::getDB();
+	std::string mysql_status = enumToString(this->status);
+	auto stmt = db.prepare("Update OrderTable set order_status = ? where order_id = ?");
+	stmt->setString(1, mysql_status);
+	stmt->setInt(2, this->order_id);
+	stmt->execute();
 }
 void Order::sendToKitchen()
 {
