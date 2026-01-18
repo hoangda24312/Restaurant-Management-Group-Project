@@ -10,7 +10,7 @@ KitchenStaff::KitchenStaff(const std::string& id, const std::string& name,
 
 std::vector<std::vector<Order>> KitchenStaff::viewPendingOrders()
 {
-	Database db;
+	auto& db = Database::getDB();
 	std::vector<std::vector<Order>> order_list;
 	//return a result set, then conver this result set to vector
 	auto rs = db.select("Select * from OrderTable where order_status in ('PENDING','PREPARING','READY')");

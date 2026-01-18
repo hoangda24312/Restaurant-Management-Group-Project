@@ -42,13 +42,18 @@ Database::~Database()
 		delete con;
 	}
 }
-// l?y k?t n?i
+// return connection
 sql::Connection* Database::getConnection()
 {
 	return con;
 }
+Database& Database::getDB()
+{
+	static Database db;
+	return db;
+}
 
-//tr? v? 1 result set
+
 sql::ResultSet* Database::select(const std::string& sql)
 {
 	sql::Statement* stmt = con->createStatement(); 

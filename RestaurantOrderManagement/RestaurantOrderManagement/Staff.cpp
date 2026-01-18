@@ -8,7 +8,7 @@ Staff::Staff(const std::string& staff_id, const std::string& staff_name, const s
 
 bool Staff::login(std::string& staff_id, std::string& password)
 {
-	Database db;
+	auto& db = Database::getDB();
 	auto rs = db.select("Select password from Staff where staff_id = '" + staff_id+"'");
 	if (!(rs->next())) return false; // không có nhân viên
 	return password == rs->getString("password"); //input password là password ?ã ???c mã hóa
