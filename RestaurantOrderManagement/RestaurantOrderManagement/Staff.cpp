@@ -10,8 +10,8 @@ bool Staff::login(std::string& staff_id, std::string& password)
 {
 	auto& db = Database::getDB();
 	auto qr = db.select("Select password from Staff where staff_id = '" + staff_id+"'");
-	if (!(qr.rs->next())) return false; // không có nhân viên
-	return password == qr.rs->getString("password"); //input password là password ?ã ???c mã hóa
+	if (!(qr.rs->next())) return false; //wrong staff_id
+	return password == qr.rs->getString("password"); //input password is a crypted password
 }
 
 std::string Staff::getName()

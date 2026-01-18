@@ -8,15 +8,14 @@ KitchenStaff::KitchenStaff(const std::string& id, const std::string& name,
 {
 }
 
-std::vector<std::vector<Order>> KitchenStaff::viewPendingOrders()
+std::vector<Order> KitchenStaff::viewPendingOrders()
 {
 	auto& db = Database::getDB();
-	std::vector<std::vector<Order>> order_list;
+	std::vector<Order> order_list;
 	//return a result set, then conver this result set to vector
 	auto qr = db.select("Select * from OrderTable where order_status in ('PENDING','PREPARING','READY')");
 	while (qr.rs->next())
 	{
-		std::vector<Order> tam;
 		int order_id = qr.rs->getInt("order_id");
 		int table_number = qr.rs->getInt("table_number");
 		OrderStatus status = stringToEnum(qr.rs->getString("order_status"));
@@ -30,8 +29,7 @@ std::vector<std::vector<Order>> KitchenStaff::viewPendingOrders()
 		ss >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
 		std::chrono::system_clock::time_point order_time = std::chrono::system_clock::from_time_t(std::mktime(&tm));
 		Order order(order_id, table_number, order_time, status, total_amount, note, customer_name);
-		tam.push_back(order);
-		order_list.push_back(tam);
+		order_list.push_back(order);
 	}
 	return order_list;
 }
