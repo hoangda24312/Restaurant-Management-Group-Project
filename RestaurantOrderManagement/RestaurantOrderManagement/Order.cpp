@@ -27,6 +27,44 @@ OrderStatus Order::getStatus() const
 	return this->status;
 }
 
+std::string Order::getNote() const
+{
+	return this->note;
+}
+std::vector<std::vector<Order>> Order::getAllOrders()
+{
+	auto& db = Database::getDB();
+
+
+
+}
+Order Order::getOrderById(int order_id)
+{
+	auto& db = Database::getDB();
+	auto rs = db.select("Select * from OrderTable where order_id = "+std::to_string(order_id));
+	if (!rs->next())
+	{
+		throw std::runtime_error("Order not found");
+	}
+	int id = rs->getInt("order_id");
+	int table_number = rs->getInt("table_number");
+	OrderStatus status = stringToEnum(rs->getString("order_status"));
+	float total_amount = rs->getDouble("total_amount");
+	std::string note = rs->getString("note");
+	std::string customer_name = rs->getString("customer_name");
+	//map datetime
+	std::string timeStr = rs->getString("order_time");
+	std::tm tm = {};
+	std::istringstream ss(timeStr);
+	ss >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
+	std::chrono::system_clock::time_point order_time = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+	Order order(id, table_number, order_time, status, total_amount, note, customer_name);
+	delete rs;
+	return order;
+}
+
+
+
 
 void Order::cancel()
 {
@@ -76,3 +114,5 @@ void Order::markCompleted()
 	stmt->setInt(2, this->order_id);
 	stmt->execute(); delete stmt;
 }
+
+

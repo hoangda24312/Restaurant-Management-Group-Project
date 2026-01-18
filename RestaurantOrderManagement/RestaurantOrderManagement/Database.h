@@ -1,5 +1,12 @@
 #include "common.h"
 #pragma once
+
+struct QueryResult
+{
+    std::unique_ptr<sql::Statement> stmt;
+    std::unique_ptr<sql::ResultSet> rs;
+};
+
 class Database
 {
 private:
@@ -14,6 +21,6 @@ public:
     ~Database();
     static Database& getDB();
     sql::Connection* getConnection();
-    sql::ResultSet* select(const std::string& sql);
-    sql::PreparedStatement* prepare(const std::string& sql);
+    QueryResult select(const std::string& sql);
+    std::unique_ptr<sql::PreparedStatement> prepare(const std::string& sql);
 };

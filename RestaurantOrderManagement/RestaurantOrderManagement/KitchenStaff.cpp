@@ -33,5 +33,6 @@ std::vector<std::vector<Order>> KitchenStaff::viewPendingOrders()
 		tam.push_back(order);
 		order_list.push_back(tam);
 	}
+	delete rs;
 	return order_list;
 }

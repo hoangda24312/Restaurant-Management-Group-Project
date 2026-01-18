@@ -54,12 +54,18 @@ Database& Database::getDB()
 }
 
 
-sql::ResultSet* Database::select(const std::string& sql)
+QueryResult Database::select(const std::string& sql)
 {
-	sql::Statement* stmt = con->createStatement(); 
-	return stmt->executeQuery(sql);
+	QueryResult qr;
+	qr.stmt.reset(con->createStatement());
+	qr.rs.reset(qr.stmt->executeQuery(sql));
+	return qr;
 }
-sql::PreparedStatement* Database::prepare(const std::string& sql)
+
+std::unique_ptr<sql::PreparedStatement>
+Database::prepare(const std::string& sql)
 {
-	return con->prepareStatement(sql);
+	return std::unique_ptr<sql::PreparedStatement>(
+		con->prepareStatement(sql)
+	);
 }
