@@ -21,9 +21,9 @@ public:
 	int getTableNumber() const;
 	std::chrono::system_clock::time_point getOrderTime() const;
 	OrderStatus getStatus() const;
-	std::vector < std::vector<OrderItem>> getOrderItems() const;
+	std::vector<OrderItem> getOrderItems() const;
 	std::string getNote() const;
-	static std::vector<std::vector<Order>> getAllOrders();
+	static std::vector<Order> getAllOrders();
 	static Order getOrderById(int order_id);
 	void addOrderItem(OrderItem item);
 	void removeOrderItem(std::string order_item_id);

@@ -9,7 +9,7 @@ Order::Order(const int order_id,const int table_number,const std::chrono::system
 	total_amount(total_amount), note(note), customer_name(customer_name)
 {
 }
-
+//all get method
 int Order::getOrderId() const
 {
 	return this->order_id;
@@ -31,14 +31,34 @@ std::string Order::getNote() const
 {
 	return this->note;
 }
-std::vector<std::vector<Order>> Order::getAllOrders()
+
+std::vector<Order> Order::getAllOrders() //return all order in database
 {
 	auto& db = Database::getDB();
-
-
-
+	std::vector<Order> order_list;
+	auto qr = db.select("Select * from OrderTable");
+	while (qr.rs->next())
+	{
+		int id = qr.rs->getInt("order_id");
+		int table_number = qr.rs->getInt("table_number");
+		OrderStatus status = stringToEnum(qr.rs->getString("order_status"));
+		float total_amount = qr.rs->getDouble("total_amount");
+		std::string note = qr.rs->getString("note");
+		std::string customer_name = qr.rs->getString("customer_name");
+		//map datetime
+		std::string timeStr = qr.rs->getString("order_time");
+		std::tm tm = {};
+		std::istringstream ss(timeStr);
+		ss >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
+		std::chrono::system_clock::time_point order_time = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+		Order order(id, table_number, order_time, status, total_amount, note, customer_name);
+		order_list.push_back(order);
+	}
+	return order_list;
 }
-Order Order::getOrderById(int order_id)
+
+
+Order Order::getOrderById(int order_id) //use to find an order with order_id
 {
 	auto& db = Database::getDB();
 	auto qr = db.select("Select * from OrderTable where order_id = "+std::to_string(order_id));
@@ -61,10 +81,10 @@ Order Order::getOrderById(int order_id)
 	Order order(id, table_number, order_time, status, total_amount, note, customer_name);
 	return order;
 }
+//////////////////////////////
 
 
-
-
+//all set status method
 void Order::cancel()
 {
 	if (this->status == OrderStatus::COMPLETED || this->status == OrderStatus::PREPARING || this->status == OrderStatus::READY)
@@ -119,5 +139,5 @@ void Order::markCompleted()
 	stmt->setInt(2, this->order_id);
 	stmt->execute();
 }
-
+///////////////////////////////////////////
 

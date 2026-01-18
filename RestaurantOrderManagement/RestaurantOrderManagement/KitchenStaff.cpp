@@ -13,7 +13,7 @@ std::vector<Order> KitchenStaff::viewPendingOrders()
 	auto& db = Database::getDB();
 	std::vector<Order> order_list;
 	//return a result set, then conver this result set to vector
-	auto qr = db.select("Select * from OrderTable where order_status in ('PENDING','PREPARING','READY')");
+	auto qr = db.select("Select * from OrderTable where order_status in ('PENDING','PREPARING','READY') ORDER BY FIELD(order_status, 'PREPARING','PENDING','READY')");
 	while (qr.rs->next())
 	{
 		int order_id = qr.rs->getInt("order_id");
