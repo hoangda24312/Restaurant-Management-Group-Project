@@ -9,9 +9,9 @@ Staff::Staff(const std::string& staff_id, const std::string& staff_name, const s
 bool Staff::login(std::string& staff_id, std::string& password)
 {
 	auto& db = Database::getDB();
-	auto rs = db.select("Select password from Staff where staff_id = '" + staff_id+"'");
-	if (!(rs->next())) return false; // không có nhân viên
-	return password == rs->getString("password"); //input password là password ?ã ???c mã hóa
+	auto qr = db.select("Select password from Staff where staff_id = '" + staff_id+"'");
+	if (!(qr.rs->next())) return false; // không có nhân viên
+	return password == qr.rs->getString("password"); //input password là password ?ã ???c mã hóa
 }
 
 std::string Staff::getName()
