@@ -36,17 +36,22 @@ Database::Database(const std::string& config_path)
 
 Database::~Database()
 {
-	delete con;
+	if (con) 
+	{
+		con->close();
+		delete con;
+	}
 }
-
+// l?y k?t n?i
 sql::Connection* Database::getConnection()
 {
 	return con;
 }
 
+//tr? v? 1 result set
 sql::ResultSet* Database::select(const std::string& sql)
 {
-	sql::Statement* stmt = con->createStatement();
+	sql::Statement* stmt = con->createStatement(); 
 	return stmt->executeQuery(sql);
 }
 sql::PreparedStatement* Database::prepare(const std::string& sql)

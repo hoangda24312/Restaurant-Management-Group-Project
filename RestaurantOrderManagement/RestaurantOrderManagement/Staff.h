@@ -13,7 +13,7 @@ public:
 	~Staff() = default;
 	std::string getName();
 	//kiem tra lai login
-	bool login(std::string& staff_id, std::string& password);
+	static bool login(std::string& staff_id, std::string& password);
 	std::string getRole();
 };
 
