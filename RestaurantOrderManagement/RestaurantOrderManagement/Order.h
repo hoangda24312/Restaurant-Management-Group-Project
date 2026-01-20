@@ -14,7 +14,11 @@ private:
 	float total_amount;
 	std::string note;
 	std::string customer_name;
+	int next_item_no;
 public:
+	//first created order
+	Order(int table_number,const std::string& customer_name, const std::string& note = "");
+	//load order from database
 	Order(const int order_id, const int table_number,const std::chrono::system_clock::time_point& order_time,const OrderStatus status,
 		const float total_amount,const std::string& note,const std::string& customer_name);
 	int getOrderId() const;
@@ -36,4 +40,6 @@ public:
 	void markCompleted();
 	static Order create(int table_number, std::string note, std::string customer_name);
 	void setStatus(OrderStatus status);
+	void setOrderId(int id);
+	std::string generateOrderItemId();
 };

@@ -1,14 +1,25 @@
 #include"Order.h"
 #include"Database.h"
 
-Database db;
+std::string Order::generateOrderItemId() {
+	if (next_item_no > 999) throw std::runtime_error("OrderItemId overflow");
+	std::ostringstream oss; //string id format
+	oss << "OM";
+	oss << std::setw(3);
+	oss << std::setfill(0);
+	oss << next_item_no++;
+	return oss.str();
+}
+
+Order::Order(int table_number, const std::string& customer_name, const std::string& note = ""):
+	order_id(0), table_number(table_number), order_time(std::chrono::system_clock::now()), status(OrderStatus::CREATED),
+	total_amount(0.0), note(note), customer_name(customer_name){}
+
 
 Order::Order(const int order_id,const int table_number,const std::chrono::system_clock::time_point& order_time,const OrderStatus status,
 	const float total_amount,const std::string& note,const std::string& customer_name):
 	order_id(order_id), table_number(table_number), order_time(order_time), status(status),
-	total_amount(total_amount), note(note), customer_name(customer_name)
-{
-}
+	total_amount(total_amount), note(note), customer_name(customer_name){}
 //all get method
 int Order::getOrderId() const
 {
@@ -56,6 +67,7 @@ std::vector<Order> Order::getAllOrders() //return all order in database
 	}
 	return order_list;
 }
+//return list of order_item in an order
 std::vector<OrderItem> Order::getOrderItems() const
 {
 	auto& db = Database::getDB();
@@ -153,5 +165,16 @@ void Order::markCompleted()
 	stmt->setInt(2, this->order_id);
 	stmt->execute();
 }
-///////////////////////////////////////////
 
+void Order::setStatus(OrderStatus status)
+{
+	this->status = status;
+}
+///////////////////////////////////////////
+//cac phuong thuc set
+void Order::setOrderId(int id)
+{
+	this->order_id = id;
+}
+
+////////////////////////////////////////
