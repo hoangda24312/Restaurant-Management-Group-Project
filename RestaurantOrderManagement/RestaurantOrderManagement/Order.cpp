@@ -21,7 +21,7 @@ Order::Order(const int order_id,const int table_number,const std::chrono::system
 	order_id(order_id), table_number(table_number), order_time(order_time), status(status),
 	total_amount(total_amount), note(note), customer_name(customer_name),next_item_no(1)
 {
-	
+	syncNextItemNoFromItems();
 }
 //all get method
 int Order::getOrderId() const
@@ -172,6 +172,12 @@ void Order::markCompleted()
 void Order::setStatus(OrderStatus status)
 {
 	this->status = status;
+	auto& db = Database::getDB();
+	auto stmt = db.prepare("Update OrderTable set order_status = ? where order_id = ?");
+	std::string order_status = enumToString(this->status);
+	stmt->setString(1, order_status);
+	stmt->setInt(2, this->order_id);
+	stmt->execute();
 }
 ///////////////////////////////////////////
 //cac phuong thuc set
@@ -191,7 +197,7 @@ void Order::syncNextItemNoFromItems()
 		max_no = std::max(max_no, item.getItemNo());
 	}
 
-	next_item_no = max_no + 1;
+	this->next_item_no = max_no + 1;
 }
 
 ////////////////////////////////////////

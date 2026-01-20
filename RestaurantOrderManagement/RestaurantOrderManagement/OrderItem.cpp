@@ -11,6 +11,7 @@ float OrderItem::calculateCost() const
 	return this->price * this->quantity;
 }
 
+//use to count how much order item is there in order;
 int OrderItem::getItemNo() const
 {
 	// "OM001" ? 1
@@ -18,5 +19,5 @@ int OrderItem::getItemNo() const
 		return 0;
 	}
 
-	return std::stoi(order_item_id.substr(2));
+	return std::stoi(order_item_id.substr(2)); //convert string to int
 }
