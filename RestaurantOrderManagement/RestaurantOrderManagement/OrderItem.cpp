@@ -6,4 +6,7 @@ OrderItem::OrderItem(const std::string& order_item_id, const int quantity, const
 }
 
 
-float calculateCost();
+float OrderItem::calculateCost() const
+{
+	return this->price * this->quantity;
+}

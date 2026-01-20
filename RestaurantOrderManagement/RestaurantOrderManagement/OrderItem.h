@@ -9,5 +9,5 @@ private:
 	float price;
 public:
 	OrderItem(const std::string& order_item_id,const int quantity,const float price);
-	float calculateCost();
+	float calculateCost() const;
 };
