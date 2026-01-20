@@ -14,9 +14,9 @@ private:
 	float total_amount;
 	std::string note;
 	std::string customer_name;
-	int next_item_no;
+	int next_item_no; //use to generate OrderItemID, don't save into database
 public:
-	//first created order
+	//first created order, which will be called when waiter input
 	Order(int table_number,const std::string& customer_name, const std::string& note = "");
 	//load order from database
 	Order(const int order_id, const int table_number,const std::chrono::system_clock::time_point& order_time,const OrderStatus status,
@@ -42,4 +42,5 @@ public:
 	void setStatus(OrderStatus status);
 	void setOrderId(int id);
 	std::string generateOrderItemId();
+	void syncNextItemNoFromItems();
 };

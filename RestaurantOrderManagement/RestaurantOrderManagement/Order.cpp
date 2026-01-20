@@ -13,13 +13,16 @@ std::string Order::generateOrderItemId() {
 
 Order::Order(int table_number, const std::string& customer_name, const std::string& note = ""):
 	order_id(0), table_number(table_number), order_time(std::chrono::system_clock::now()), status(OrderStatus::CREATED),
-	total_amount(0.0), note(note), customer_name(customer_name){}
+	total_amount(0.0), note(note), customer_name(customer_name),next_item_no(1){}
 
 
 Order::Order(const int order_id,const int table_number,const std::chrono::system_clock::time_point& order_time,const OrderStatus status,
 	const float total_amount,const std::string& note,const std::string& customer_name):
 	order_id(order_id), table_number(table_number), order_time(order_time), status(status),
-	total_amount(total_amount), note(note), customer_name(customer_name){}
+	total_amount(total_amount), note(note), customer_name(customer_name),next_item_no(1)
+{
+	
+}
 //all get method
 int Order::getOrderId() const
 {
@@ -175,6 +178,20 @@ void Order::setStatus(OrderStatus status)
 void Order::setOrderId(int id)
 {
 	this->order_id = id;
+}
+
+//set the next item id for OrderItem
+void Order::syncNextItemNoFromItems()
+{
+	auto items = getOrderItems();
+	int max_no = 0;
+
+	for (const auto& item : items)
+	{
+		max_no = std::max(max_no, item.getItemNo());
+	}
+
+	next_item_no = max_no + 1;
 }
 
 ////////////////////////////////////////

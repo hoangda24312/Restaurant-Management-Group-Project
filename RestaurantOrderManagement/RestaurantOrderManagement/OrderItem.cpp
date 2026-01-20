@@ -10,3 +10,13 @@ float OrderItem::calculateCost() const
 {
 	return this->price * this->quantity;
 }
+
+int OrderItem::getItemNo() const
+{
+	// "OM001" ? 1
+	if (order_item_id.size() < 3) {
+		return 0;
+	}
+
+	return std::stoi(order_item_id.substr(2));
+}
