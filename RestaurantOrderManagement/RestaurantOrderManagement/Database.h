@@ -23,4 +23,5 @@ public:
     sql::Connection* getConnection();
     QueryResult select(const std::string& sql);
     std::unique_ptr<sql::PreparedStatement> prepare(const std::string& sql);
+    int getLastInsertOrderId() const;
 };

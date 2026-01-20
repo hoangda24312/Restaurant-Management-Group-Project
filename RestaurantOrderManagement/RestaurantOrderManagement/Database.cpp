@@ -69,3 +69,14 @@ Database::prepare(const std::string& sql)
 		con->prepareStatement(sql)
 	);
 }
+
+int Database::getLastInsertOrderId() const
+{
+	Database db;
+	auto qr = db.select("SELECT LAST_INSERT_ID() AS id");
+	if (qr.rs->next())
+	{
+		return qr.rs->getInt("id");
+	}
+	throw std::runtime_error("Failed to get last insert id");
+}
