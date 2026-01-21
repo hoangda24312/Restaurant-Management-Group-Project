@@ -136,6 +136,7 @@
     <ClCompile Include="OrderItem.cpp" />
     <ClCompile Include="KitchenStaff.cpp" />
     <ClCompile Include="OrderStatus.cpp" />
+    <ClCompile Include="Source.cpp" />
     <ClCompile Include="Waiter.cpp" />
     <ClCompile Include="Staff.cpp" />
   </ItemGroup>

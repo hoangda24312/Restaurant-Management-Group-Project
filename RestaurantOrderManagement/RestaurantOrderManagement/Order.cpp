@@ -206,3 +206,13 @@ Order Order::create(int table_number, std::string note, std::string customer_nam
 {
 	return Order(table_number, note, customer_name);
 }
+
+void Order::removeOrderItem(std::string order_item_id)
+{
+	auto& db = Database::getDB();
+	auto stmt = db.prepare("Delete from OrderItem where order_item_id = ? and order_id = ?");
+	stmt->setString(1, order_item_id);
+	stmt->setInt(2, this->order_id);
+	stmt->execute();
+}
+
