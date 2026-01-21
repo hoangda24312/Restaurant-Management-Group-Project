@@ -1,14 +1,14 @@
 #include "OrderItem.h"
 
-OrderItem::OrderItem(const std::string& order_item_id, const int quantity, const float price):
-	order_item_id(order_item_id),quantity(quantity), price(price)
+OrderItem::OrderItem(const std::string& order_item_id, const std::string& order_item_name, const int quantity, const float price):
+	order_item_id(order_item_id),order_item_name(order_item_name), quantity(quantity), price(price)
 {
 }
 
 //use to create an orderitem with quantity and price from menu_item
 OrderItem OrderItem::create(const std::string& order_item_id,const MenuItem& menu_item, int quantity)
 {
-	OrderItem order_item(order_item_id, quantity, menu_item.getPrice());
+	OrderItem order_item(order_item_id,menu_item.getItemName(), quantity, menu_item.getPrice());
 	return order_item;
 }
 
