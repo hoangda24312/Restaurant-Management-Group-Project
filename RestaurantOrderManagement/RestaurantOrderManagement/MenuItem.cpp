@@ -43,3 +43,19 @@ std::vector<MenuItem> MenuItem::getAllMenuItems()
 	}
 	return menu_list;
 }
+/////////////////
+
+
+//cac phuong thuc set
+void MenuItem::setName(const std::string& name)
+{
+	this->item_name = name;
+}
+void MenuItem::setPrice(const float price)
+{
+	this->price = price;
+}
+void MenuItem::setAvailable(bool is_available)
+{
+	this->is_available = is_available;
+}
