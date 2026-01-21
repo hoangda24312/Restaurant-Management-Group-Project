@@ -64,6 +64,7 @@ create table OrderTable
 create table OrderItem
 (
 	order_item_id char(5) not null,
+    order_item_name varchar(50) not null,
     quantity int not null,
     price float,
     order_id int not null,
