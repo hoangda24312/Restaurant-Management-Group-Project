@@ -16,7 +16,7 @@ public:
 	float getPrice() const;
 	std::string getCategory() const;
 	bool isAvailable() const;
-	static std::vector<std::vector<MenuItem>> getAllMenuItems();
+	static std::vector<MenuItem> getAllMenuItems();
 	void setName(std::string name);
 	void setPrice(float price);
 	void setAvailable(bool is_available);
