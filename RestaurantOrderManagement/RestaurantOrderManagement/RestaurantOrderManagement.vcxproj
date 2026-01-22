@@ -138,6 +138,9 @@
     <ClCompile Include="OrderStatus.cpp" />
     <ClCompile Include="MenuItem.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Cashier.cpp" />
+    <ClCompile Include="Invoice.cpp" />
+    <ClCompile Include="PaymentStatys.cpp" />
     <ClCompile Include="Waiter.cpp" />
     <ClCompile Include="Staff.cpp" />
   </ItemGroup>
@@ -146,6 +149,7 @@
     <ClInclude Include="common.h" />
     <ClInclude Include="Customer.h" />
     <ClInclude Include="Cashier.h" />
+    <ClInclude Include="PaymentStatus.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="OrderStatus.h" />
     <ClInclude Include="Manager.h" />

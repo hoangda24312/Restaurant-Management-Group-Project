@@ -32,6 +32,10 @@ int Order::getTableNumber() const
 {
 	return this->table_number;
 }
+float Order::getTotalAmount() const
+{
+	return this->total_amount;
+}
 std::chrono::system_clock::time_point Order::getOrderTime() const
 {
 	return this->order_time;

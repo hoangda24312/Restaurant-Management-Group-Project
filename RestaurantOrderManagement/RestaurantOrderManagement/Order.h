@@ -24,6 +24,7 @@ public:
 		const float total_amount,const std::string& note,const std::string& customer_name);
 	int getOrderId() const;
 	int getTableNumber() const;
+	float getTotalAmount() const;
 	std::chrono::system_clock::time_point getOrderTime() const;
 	OrderStatus getStatus() const;
 	std::vector<OrderItem> getOrderItems() const;
