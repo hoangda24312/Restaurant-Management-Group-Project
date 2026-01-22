@@ -24,10 +24,10 @@ void printMenu(std::vector<MenuItem> menu_list)
 	for (int i = 0; i < menu_list.size(); i++)
 	{
 		std::cout << std::left
-			<< std::setw(10) << menu_list[i].getItemId()
-			<< std::setw(15) << menu_list[i].getItemName()
-			<< std::setw(12) << menu_list[i].getPrice()
-			<< std::setw(20) << menu_list[i].getCategory()
+			<< std::setw(6) << menu_list[i].getItemId()
+			<< std::setw(35) << menu_list[i].getItemName()
+			<< std::setw(15) << menu_list[i].getPrice()
+			<< std::setw(15) << menu_list[i].getCategory()
 			<< std::setw(10) << menu_list[i].isAvailable()
 			<< std::endl;
 	}
