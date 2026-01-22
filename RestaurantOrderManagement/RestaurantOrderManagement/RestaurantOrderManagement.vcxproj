@@ -140,7 +140,7 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Cashier.cpp" />
     <ClCompile Include="Invoice.cpp" />
-    <ClCompile Include="PaymentStatys.cpp" />
+    <ClCompile Include="PaymentStatus.cpp" />
     <ClCompile Include="Waiter.cpp" />
     <ClCompile Include="Staff.cpp" />
   </ItemGroup>

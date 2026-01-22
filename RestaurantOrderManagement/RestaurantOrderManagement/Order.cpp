@@ -135,55 +135,100 @@ void Order::cancel()
 }
 void Order::sendToKitchen()
 {
-	this->status = OrderStatus::PENDING;
 	auto& db = Database::getDB();
-	std::string mysql_status = enumToString(this->status);
-	auto stmt = db.prepare("Update OrderTable set order_status = ? where order_id = ?");
+	auto stmt = db.prepare(
+		"UPDATE OrderTable SET order_status = ? WHERE order_id = ?"
+	);
+
+	std::string mysql_status = enumToString(OrderStatus::PENDING);
 	stmt->setString(1, mysql_status);
 	stmt->setInt(2, this->order_id);
-	stmt->execute();
+
+	int affected = stmt->executeUpdate();
+	if (affected != 1) {
+		throw std::runtime_error("sendToKitchen failed: order not found");
+	}
+
+	this->status = OrderStatus::PENDING;
 }
+
 void Order::markPreparing()
 {
-	this->status = OrderStatus::PREPARING;
 	auto& db = Database::getDB();
-	std::string mysql_status = enumToString(this->status);
-	auto stmt = db.prepare("Update OrderTable set order_status = ? where order_id = ?");
+	auto stmt = db.prepare(
+		"UPDATE OrderTable SET order_status = ? WHERE order_id = ?"
+	);
+
+	std::string mysql_status = enumToString(OrderStatus::PREPARING);
 	stmt->setString(1, mysql_status);
 	stmt->setInt(2, this->order_id);
-	stmt->execute();
+
+	int affected = stmt->executeUpdate();
+	if (affected != 1) {
+		throw std::runtime_error("markPreparing failed: order not found");
+	}
+
+	this->status = OrderStatus::PREPARING;
 }
+
 void Order::markReady()
 {
-	this->status = OrderStatus::READY;
 	auto& db = Database::getDB();
-	std::string mysql_status = enumToString(this->status);
-	auto stmt = db.prepare("Update OrderTable set order_status = ? where order_id = ?");
+	auto stmt = db.prepare(
+		"UPDATE OrderTable SET order_status = ? WHERE order_id = ?"
+	);
+
+	std::string mysql_status = enumToString(OrderStatus::READY);
 	stmt->setString(1, mysql_status);
 	stmt->setInt(2, this->order_id);
-	stmt->execute();
+
+	int affected = stmt->executeUpdate();
+	if (affected != 1) {
+		throw std::runtime_error("markReady failed: order not found");
+	}
+
+	this->status = OrderStatus::READY;
 }
+
 void Order::markCompleted()
 {
-	this->status = OrderStatus::COMPLETED;
 	auto& db = Database::getDB();
-	std::string mysql_status = enumToString(this->status);
-	auto stmt = db.prepare("Update OrderTable set order_status = ? where order_id = ?");
+	auto stmt = db.prepare(
+		"UPDATE OrderTable SET order_status = ? WHERE order_id = ?"
+	);
+
+	std::string mysql_status = enumToString(OrderStatus::COMPLETED);
 	stmt->setString(1, mysql_status);
 	stmt->setInt(2, this->order_id);
-	stmt->execute();
+
+	int affected = stmt->executeUpdate();
+	if (affected != 1) {
+		throw std::runtime_error("markCompleted failed: order not found");
+	}
+
+	this->status = OrderStatus::COMPLETED;
 }
+
 
 void Order::setStatus(OrderStatus status)
 {
-	this->status = status;
 	auto& db = Database::getDB();
-	auto stmt = db.prepare("Update OrderTable set order_status = ? where order_id = ?");
-	std::string order_status = enumToString(this->status);
-	stmt->setString(1, order_status);
+	auto stmt = db.prepare(
+		"UPDATE OrderTable SET order_status = ? WHERE order_id = ?"
+	);
+
+	std::string mysql_status = enumToString(status);
+	stmt->setString(1, mysql_status);
 	stmt->setInt(2, this->order_id);
-	stmt->execute();
+
+	int affected = stmt->executeUpdate();
+	if (affected != 1) {
+		throw std::runtime_error("setStatus failed: order not found");
+	}
+
+	this->status = status;
 }
+
 ///////////////////////////////////////////
 //cac phuong thuc set
 void Order::setOrderId(int id)
