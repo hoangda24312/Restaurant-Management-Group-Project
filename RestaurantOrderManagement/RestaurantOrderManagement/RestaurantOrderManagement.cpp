@@ -6,8 +6,6 @@ int main()
 	do
 	{
 		char choice_logging_screen;
-		std::vector<MenuItem> menu_list;
-		menu_list = MenuItem::getAllMenuItems();
 		loginScreen();
 		std::cout << "Please enter your choice: "; std::cin >> choice_logging_screen;
 		if (choice_logging_screen == '1')
@@ -15,12 +13,11 @@ int main()
 			showMenuScreen();
 		}
 
-
-
-
 		else if (choice_logging_screen == '2')
 		{
-			return 0;
+			std::string username; std::string password;
+			std::cout << "Staff ID:"; std::cin >> username;
+
 		}
 
 

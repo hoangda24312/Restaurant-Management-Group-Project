@@ -12,3 +12,4 @@
 #include <cppconn/resultset.h>
 #include <sstream>
 #include <iomanip>
+#include <openssl/sha.h>
