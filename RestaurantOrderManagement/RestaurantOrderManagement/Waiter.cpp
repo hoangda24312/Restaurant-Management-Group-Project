@@ -13,7 +13,7 @@ Order Waiter::createOrder(int table_number, std::string customer_name, std::stri
 	Order order = Order::create(table_number, note, customer_name);
 	auto& db = Database::getDB();
 	auto stmt = db.prepare(
-		"Insert into OrderTable (table_number,customer_name,note,order_status,total_amount,order_time)"
+		"Insert into OrderTable (table_number,customer_name,note,order_status,total_amount,order_time) "
 		"values (?,?,?,?,?,now())"
 	);
 	stmt->setInt(1, table_number);
