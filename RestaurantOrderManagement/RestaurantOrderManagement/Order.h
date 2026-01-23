@@ -38,7 +38,7 @@ public:
 	void addOrderItem(const MenuItem& menu_item, int quantity);
 	void removeOrderItem(std::string order_item_id);
 	void updateOrderItemQuantity(std::string order_item_id, int quantity);
-	static bool isTableOccupied(int table_number);
+	static bool isTableOccupied(int table_number); //check if a table is in used
 	void cancel();
 	void sendToKitchen();
 	void markPreparing();
@@ -49,6 +49,8 @@ public:
 	void setOrderId(int id);
 	void setNote(const std::string& _note);
 	std::string generateOrderItemId();
-	void syncNextItemNoFromItems();
-	std::string getOrderTimeFormatted() const;
+	void syncNextItemNoFromItems(); //use to automatically generate next order_item_id
+	std::string getOrderTimeFormatted() const; //return formatted time for UI
+	void recalculateTotalAmount(); //use to update order cost when an orderitem is add,remove or updat
+
 };

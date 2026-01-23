@@ -23,6 +23,27 @@ Order::Order(const int order_id,const int table_number,const std::chrono::system
 {
 	syncNextItemNoFromItems();
 }
+
+void Order::recalculateTotalAmount() //use to update order cost when an orderitem is add,remove or update
+{
+	auto& db = Database::getDB();
+	auto items = getOrderItems();
+	float total = 0;
+
+	for (const auto& item : items)
+	{
+		total += item.calculateCost();
+	}
+
+	this->total_amount = total;
+
+	auto stmt = db.prepare("UPDATE OrderTable SET total_amount = ? WHERE order_id = ?");
+	stmt->setDouble(1, total);
+	stmt->setInt(2, this->order_id);
+	stmt->executeUpdate();
+}
+
+
 //all get method
 int Order::getOrderId() const
 {
