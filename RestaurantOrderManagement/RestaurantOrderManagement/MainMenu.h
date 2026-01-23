@@ -15,7 +15,7 @@ void printOrderMenu(const std::vector<Order>& order_list);
 void printOrder(Order order, Staff staff, std::vector<OrderItem> order_item_list);
 void printOrderItemList(std::vector<OrderItem> order_item_list);
 void printStaffList(std::vector<Staff> staff_list);
-
+void orderModify(Order& order, Staff staff);
 
 //showScreen function
 void showMenuScreen();//this will call print menu function

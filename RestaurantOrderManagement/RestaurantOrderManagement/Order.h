@@ -47,6 +47,7 @@ public:
 	static Order create(int table_number, std::string note, std::string customer_name);
 	void setStatus(OrderStatus status);
 	void setOrderId(int id);
+	void setNote(const std::string& _note);
 	std::string generateOrderItemId();
 	void syncNextItemNoFromItems();
 	std::string getOrderTimeFormatted() const;

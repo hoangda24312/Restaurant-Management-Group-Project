@@ -202,6 +202,185 @@ void showMenuScreen()
 }
 
 
+//order modify screen
+void orderModify(Order& order,Staff staff)
+{
+	bool modify_order = true;
+	do
+	{
+		std::vector<OrderItem> order_item_list = order.getOrderItems();
+		printOrder(order, staff, order_item_list);
+		std::cout << "[V] View Menu\t"
+			<< "[S] Send to Kitchen\t"
+			<< "[C] Completed\n"
+			<< "[U] Update Order\t"
+			<< "[B] Back\n";
+		char choice;
+		std::cout << "choice: "; std::cin >> choice;
+
+		{
+			if (choice == 'V' || choice == 'v')
+			{
+				showMenuScreen();
+			}
+			else if (choice == 'S' || choice == 's')
+			{
+				if (order_item_list.empty())
+				{
+					std::cout << "No orderitem in order, please add orderitem, can't send to kitchen" << std::endl;
+					continue;
+				}
+				char confirm;
+				std::cout << "Confirm send to kitchen ? y/n"; std::cin >> confirm;
+				if (confirm == 'y') order.sendToKitchen();
+				else continue;
+			}
+
+
+			else if (choice == 'C' || choice == 'c')
+			{
+				char confirm;
+				std::cout << "Are you sure customer has done their food ? y/n"; std::cin >> confirm;
+				if (confirm == 'y') order.markCompleted();
+				else continue;
+			}
+
+			//loop to updating order
+			else if (choice == 'U' || choice == 'u')
+			{
+				bool updating_order = true;
+				do
+				{
+					std::cout << "[A] Add Order Item\t"
+						<< "[R] Remove Order Item\t"
+						<< "[U] Update note\n"
+						<< "[Q] Quantity modify\t"
+						<< "[B] Back\n";
+					char order_item_choice;
+					std::cout << "Your choice:"; std::cin >> order_item_choice;
+					if (order_item_choice == 'A' || order_item_choice == 'a')
+					{
+						std::optional<MenuItem> menu_item;
+						bool retry;
+
+						do
+						{
+							retry = false;
+							try
+							{
+								std::string menu_item_id;
+								std::cout << "Enter item id (e.g M0001): ";
+								std::cin >> menu_item_id;
+
+								menu_item = MenuItem::getMenuItemById(menu_item_id);
+
+								if (!menu_item->isAvailable())
+								{
+									std::cout << "Item is not available\n";
+									retry = true;
+								}
+							}
+							catch (const std::runtime_error& e)
+							{
+								std::cout << e.what() << std::endl;
+								retry = true;
+							}
+						} while (retry);
+						int quantity;
+						std::cout << "Enter Quantity: "; std::cin >> quantity;
+						try
+						{
+							order.addOrderItem(*menu_item, quantity);
+							std::cout << "Success! Added" << quantity << "x" << menu_item->getItemName() << std::endl;
+						}
+						catch (std::runtime_error& e)
+						{
+							std::cout << e.what() << std::endl;
+						}
+
+					}
+
+					else if (order_item_choice == 'R' || order_item_choice == 'r')
+					{
+						std::string order_item_id;
+						std::cout << "Enter order_item_id order from up to down (first order is OM001, second OM002,...): "; std::cin >> order_item_id;
+						try
+						{
+							char confirm;
+							std::cout << "You sure you want to remove this order item ? y/n"; std::cin >> confirm;
+							if (confirm == 'y')
+							{
+								order.removeOrderItem(order_item_id);
+							}
+							else continue;
+						}
+						catch (std::runtime_error& e)
+						{
+							std::cout << e.what() << std::endl;
+						}
+
+					}
+
+
+					else if (order_item_choice == 'U' || order_item_choice == 'u')
+					{
+						std::string new_note;
+						std::cout << "Enter Note:"; 
+						std::cin.ignore(); std::getline(std::cin, new_note);
+						order.setNote(new_note);
+					}
+
+					else if (order_item_choice == 'Q' || order_item_choice == 'q')
+					{
+						std::string order_item_id; int new_quantity;
+						std::cout << "Enter order_item_id order from up to down (First is OM001, second OM002,...): "; std::cin >> order_item_id;
+						do
+						{
+							std::cout << "Enter new quantity:"; std::cin >> new_quantity;
+							if (new_quantity <= 0 || new_quantity >= 40) std::cout << "Invalid quantity or quantity too high, try again" << std::endl;
+						} while (new_quantity <= 0 || new_quantity >= 40);
+						std::cin.ignore();
+						try
+						{
+							char confirm;
+							std::cout << "You sure you want to update this order item ? y/n"; std::cin >> confirm;
+							if (confirm == 'y')
+							{
+								order.updateOrderItemQuantity(order_item_id, new_quantity);
+							}
+							else continue;
+						}
+						catch (std::runtime_error& e)
+						{
+							std::cout << e.what() << std::endl;
+						}
+
+					}
+
+					else if (order_item_choice == 'B' || order_item_choice == 'b')
+					{
+						updating_order = false;
+					}
+
+					else
+					{
+						std::cout << "Wrong input, please try again" << std::endl;
+						continue;
+					}
+
+				} while (updating_order == true);
+			}
+
+			else if (choice == 'B' || choice == 'b')
+			{
+				modify_order = false;
+			}
+		}
+
+	} while (modify_order == true);
+}
+
+
 
 //order screen of waiter
 void showOrderWaiter(Staff staff,Waiter waiter)
@@ -234,39 +413,24 @@ void showOrderWaiter(Staff staff,Waiter waiter)
 
 			//when create order, waiter will view that order to modify
 			Order order = Order::create(table_number, note, customer_name);
-			bool modify_order = true; //use to stop loop
-			do
-			{
-				std::vector<OrderItem> order_item_list = order.getOrderItems();
-				printOrder(order, staff, order_item_list);
-				std::cout << "[V] View Menu\t"
-					<< "[S] Send to Kitchen\t"
-					<< "[C] Completed\n"
-					<< "[U] Update Order\t"
-					<< "[B] Back\n";
-				char choice;
-				std::cout << "choice: "; std::cin >> choice;
-
-				{
-					if (choice == 'V' || choice == 'v')
-					{
-						showMenuScreen();
-					}
-					else if (choice == 'S' || choice == 's')
-					{
-						char confirm;
-						std::cout << "Confirm send to kitchen ? y/n"; std::cin >> confirm;
-						if (confirm == 'y') order.sendToKitchen();
-						else continue;
-					}
-				}
-
-			} while (modify_order == true);
+			orderModify(order, staff);
+			
 		}
 
 
 		else if (waiter_choice == 'V')
 		{
+			int id;
+			std::cout << "Enter order_id: "; std::cin >> id;
+			try
+			{
+				Order modify_order = Order::getOrderById(id);
+				orderModify(modify_order, staff);
+			}
+			catch (const std::runtime_error& e)
+			{
+				std::cout << e.what() << std::endl;
+			}
 
 		}
 

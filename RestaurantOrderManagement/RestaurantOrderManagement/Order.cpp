@@ -142,7 +142,10 @@ void Order::cancel()
 	auto stmt = db.prepare("Update OrderTable set order_status = ? where order_id = ?");
 	stmt->setString(1, mysql_status);
 	stmt->setInt(2, this->order_id);
-	stmt->execute();
+	int affected = stmt->executeUpdate();
+	if (affected != 1) {
+		throw std::runtime_error("cancel failed: order not found");
+	}
 }
 void Order::sendToKitchen()
 {
@@ -261,6 +264,27 @@ void Order::syncNextItemNoFromItems()
 
 	this->next_item_no = max_no + 1;
 }
+
+void Order::setNote(const std::string& note)
+{
+	auto& db = Database::getDB();
+	try
+	{
+		auto stmt = db.prepare("Update OrderTable set note = ? where order_id = ?");
+
+		stmt->setString(1, note);
+		stmt->setInt(2, this->order_id);
+
+		stmt->executeUpdate();
+		this->note = note;
+		std::cout << "Note has been set succesfully"<<std::endl;
+	}
+	catch (sql::SQLException&)
+	{
+		throw std::runtime_error("Failed to update order note");
+	}
+}
+
 
 ////////////////////////////////////////
 //order management
