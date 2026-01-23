@@ -5,7 +5,7 @@ create table Staff
 (
 	staff_id char(5) primary key not null,
     staff_name varchar(30) not null,
-    password varchar(40) not null,
+    password varchar(255) not null,
     phone char(10) not null,
     role varchar(30) not null
 );

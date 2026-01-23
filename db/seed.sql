@@ -1,13 +1,14 @@
 SET FOREIGN_KEY_CHECKS = 1;
 
-INSERT INTO Staff VALUES
-('S0001','Nguyen Van A','123456','0901111111','Manager'),
-('S0002','Tran Thi B','123456','0902222222','Waiter'),
-('S0003','Le Van C','123456','0903333333','Waiter'),
-('S0004','Pham Gia D','123456','0904444444','Kitchen'),
-('S0005','Hoang Minh E','123456','0905555555','Kitchen'),
-('S0006','Vu Thi F','123456','0906666666','Cashier'),
-('S0007','Do Van G','123456','0907777777','Cashier');
+INSERT INTO Staff (staff_id, staff_name, password, phone, role) VALUES
+('S0001', 'Nguyen Van A', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '0901111111', 'Manager'),
+('S0002', 'Tran Thi B',   '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '0902222222', 'Waiter'),
+('S0003', 'Le Van C',     '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '0903333333', 'KitchenStaff'),
+('S0004', 'Pham Gia D',   '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '0904444444', 'Cashier'),
+('S0005', 'Hoang Minh E', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '0905555555', 'Cashier'),
+('S0006', 'Vu Thi F',     '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '0906666666', 'Waiterr'),
+('S0007', 'Do Van G',     '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '0907777777', 'KitchenStaff'),
+('S0008', 'Bui Minh H',   '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '0908888888', 'Waiter');
 
 INSERT INTO Customer(customer_name, phone) VALUES
 ('Son Tung','0910000001'),

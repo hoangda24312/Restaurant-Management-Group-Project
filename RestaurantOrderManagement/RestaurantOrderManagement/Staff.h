@@ -15,7 +15,7 @@ public:
 	std::string getId() const;
 	std::string getPhone() const;
 	//kiem tra lai login
-	static bool login(std::string& staff_id, std::string& password);
+	static bool login(const std::string& staff_id,const std::string& password);
 	std::string getRole() const;
 };
 

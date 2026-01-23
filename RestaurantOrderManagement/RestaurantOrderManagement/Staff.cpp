@@ -6,7 +6,7 @@ Staff::Staff(const std::string& staff_id, const std::string& staff_name, const s
 {
 }
 
-bool Staff::login(std::string& staff_id, std::string& password)
+bool Staff::login(const std::string& staff_id, const std::string& password)
 {
 	auto& db = Database::getDB();
 	auto qr = db.select("Select password from Staff where staff_id = '" + staff_id+"'");
