@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS RestaurantOrderManagement;
 create database RestaurantOrderManagement;
 use RestaurantOrderManagement;
 create table Staff

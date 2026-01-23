@@ -1,4 +1,4 @@
-SET FOREIGN_KEY_CHECKS = 0;
+SET FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO Staff VALUES
 ('S0001','Nguyen Van A','123456','0901111111','Manager'),
@@ -8,19 +8,22 @@ INSERT INTO Staff VALUES
 ('S0005','Hoang Minh E','123456','0905555555','Kitchen'),
 ('S0006','Vu Thi F','123456','0906666666','Cashier'),
 ('S0007','Do Van G','123456','0907777777','Cashier');
-delete from staff;
+
 INSERT INTO Customer(customer_name, phone) VALUES
 ('Son Tung','0910000001'),
 ('Jack','0910000002'),
 ('My Tam','0910000003'),
 ('Den Vau','0910000004'),
 ('Min','0910000005');
+
+
 INSERT INTO MenuItem VALUES
 ('M0001','Beefsteak',250000,'Main dish',1),
 ('M0002','Pasta',120000,'Main dish',1),
 ('M0003','Salmon',300000,'Side dish',0),
 ('M0004','Red Wine',150000,'Drink',1),
 ('M0005','Caesar Salad',85000,'Appetizer',1);
+
 INSERT INTO InventoryItem VALUES
 ('ING01','Beef',50,'kg'),
 ('ING02','Pasta Noodle',30,'kg'),
@@ -28,19 +31,6 @@ INSERT INTO InventoryItem VALUES
 ('ING04','Wine Bottle',100,'bottle'),
 ('ING05','Vegetable',40,'kg'),
 ('ING06','Cheese',15,'kg');
-INSERT INTO InventoryItemMenu VALUES
-('M0001',1,0.3,'kg','ING01'),
-('M0001',1,0.1,'kg','ING05'),
-
-('M0002',1,0.2,'kg','ING02'),
-('M0002',1,0.05,'kg','ING06'),
-
-('M0003',1,0.25,'kg','ING03'),
-
-('M0004',1,1,'bottle','ING04'),
-
-('M0005',1,0.15,'kg','ING05'),
-('M0005',1,0.05,'kg','ING06');
 INSERT INTO InventoryItemMenu VALUES
 ('M0001',1,0.3,'kg','ING01'),
 ('M0001',1,0.1,'kg','ING05'),
@@ -108,4 +98,3 @@ INSERT INTO StaffOrder VALUES
 ('S0004',NOW(),'READY',4),
 ('S0005',NOW(),'PREPARING',8),
 ('S0005',NOW(),'READY',14);
-INSERT INTO MenuItem VALUES ('M0001','Beefsteak',250000,'Main dish',1), ('M0002','Pasta',120000,'Main dish',1), ('M0003','Salmon',300000,'Side dish',0), ('M0004','Red Wine',150000,'Drink',1), ('M0005','Caesar Salad',85000,'Appetizer',1)
