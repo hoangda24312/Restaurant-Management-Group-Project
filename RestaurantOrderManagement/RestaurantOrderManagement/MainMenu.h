@@ -6,7 +6,7 @@
 
 
 void printLine(char c, const int width = 75);
-void printMenu(const std::vector<MenuItem>& menu_list);
+void printMenu(const std::vector<MenuItem>& menu_list, bool filter = false, std::string category);
 void loginScreen();
 void printOrderMenu(const std::vector<Order>& order_list);
 void printOrder(Order order, Staff staff, std::vector<OrderItem> order_item_list);

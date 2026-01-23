@@ -7,7 +7,7 @@ void printLine(char c, const int width)
 	std::cout << std::string(width, c) << std::endl; // use string to set default line
 }
 
-void printMenu(const std::vector<MenuItem>& menu_list)
+void printMenu(const std::vector<MenuItem>& menu_list, bool filter = false, std::string category)
 {
 	printLine('-');
 	std::cout << std::setw(50) << "MENU" << std::endl;
@@ -22,6 +22,8 @@ void printMenu(const std::vector<MenuItem>& menu_list)
 	printLine('-');
 	for (int i = 0; i < menu_list.size(); i++)
 	{
+		if (filter == true &&
+			menu_list[i].getCategory() != category) continue;
 		std::cout << std::left
 			<< std::setw(6) << menu_list[i].getItemId()
 			<< std::setw(35) << menu_list[i].getItemName()
