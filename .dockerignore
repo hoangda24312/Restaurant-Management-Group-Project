@@ -1,0 +1,9 @@
+.git
+.gitignore
+.vs
+.vscode
+x64
+Debug
+Release
+*.exe
+*.pdb
