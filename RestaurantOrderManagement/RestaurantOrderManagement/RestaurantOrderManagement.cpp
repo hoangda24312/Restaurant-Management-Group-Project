@@ -20,7 +20,7 @@ int main()
 
 		else if (choice_logging_screen == '2')
 		{
-
+			return 0;
 		}
 
 

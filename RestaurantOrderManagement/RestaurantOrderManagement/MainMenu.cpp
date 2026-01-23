@@ -7,7 +7,7 @@ void printLine(char c, const int width)
 	std::cout << std::string(width, c) << std::endl; // use string to set default line
 }
 
-void printMenu(const std::vector<MenuItem>& menu_list, bool filter = false, std::string category)
+void printMenu(const std::vector<MenuItem>& menu_list, bool filter, std::string category)
 {
 	printLine('-');
 	std::cout << std::setw(50) << "MENU" << std::endl;
@@ -144,16 +144,18 @@ void showMenuScreen()
 {
 	auto menu_list = MenuItem::getAllMenuItems();
 	bool menu_screen = true;
+	printMenu(menu_list);
 	do
 	{
-		printMenu(menu_list);
 		std::cout << "[0] Logout\t"
 			<< "[1] view only main dish\t"
 			<< "[2] view only drink\n"
-			<< "[3] view only side dish\n";
+			<< "[3] view only side dish\t"
+			<< "[4] view all dish\n";
 		int choice;
 		std::cout << "Your choice: ";
 		std::cin >> choice;
+		system("cls");
 		switch (choice)
 		{
 		case 0:
@@ -168,8 +170,11 @@ void showMenuScreen()
 		case 3:
 			printMenu(menu_list, true, "Side dish");
 			break;
+		case 4:
+			printMenu(menu_list);
+			break;
 		default:
-			std::cout << "Incorrect choice, please choose only 1-3";
+			std::cout << "Incorrect choice, please choose only 1-4";
 			break;
 		}
 
