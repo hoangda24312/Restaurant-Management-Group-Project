@@ -204,7 +204,7 @@ void showMenuScreen()
 
 
 //order screen of waiter
-void showOrderWaiter(Waiter waiter)
+void showOrderWaiter(Staff staff,Waiter waiter)
 {
 	std::vector<Order> order_list = waiter.viewActiveOrder(); //get order list that only waiter see
 	bool waiter_screen = true; char waiter_choice;
@@ -215,7 +215,62 @@ void showOrderWaiter(Waiter waiter)
 			<< "[V] View Detail(Input ID)\t"
 			<< "[0] logout\n";
 		std::cout << "Choice: "; std::cin >> waiter_choice;
-		if (waiter_choice == '0')
+
+		if (waiter_choice == 'N') //waiter input order detail
+		{
+			int table_number; std::string customer_name; std::string note;
+			std::cout << "--CREATE NEW ORDER--" << std::endl;
+			do
+			{
+				//input order detail
+				std::cout << "Enter table number: ";
+				std::cin >> table_number;
+				if (Order::isTableOccupied(table_number)) std::cout<<"Table number already in use, please choose another\n";
+			} while (Order::isTableOccupied(table_number) == true);
+
+			std::cin.ignore(); //because of string
+			std::cout << "Enter customer name: "; std::getline(std::cin, customer_name);
+			std::cout << "note(optional) "; std::getline(std::cin, note);
+
+			//when create order, waiter will view that order to modify
+			Order order = Order::create(table_number, note, customer_name);
+			bool modify_order = true; //use to stop loop
+			do
+			{
+				std::vector<OrderItem> order_item_list = order.getOrderItems();
+				printOrder(order, staff, order_item_list);
+				std::cout << "[V] View Menu\t"
+					<< "[S] Send to Kitchen\t"
+					<< "[C] Completed\n"
+					<< "[U] Update Order\t"
+					<< "[B] Back\n";
+				char choice;
+				std::cout << "choice: "; std::cin >> choice;
+
+				{
+					if (choice == 'V' || choice == 'v')
+					{
+						showMenuScreen();
+					}
+					else if (choice == 'S' || choice == 's')
+					{
+						char confirm;
+						std::cout << "Confirm send to kitchen ? y/n"; std::cin >> confirm;
+						if (confirm == 'y') order.sendToKitchen();
+						else continue;
+					}
+				}
+
+			} while (modify_order == true);
+		}
+
+
+		else if (waiter_choice == 'V')
+		{
+
+		}
+
+		else if (waiter_choice == '0')
 		{
 			waiter_screen = false;
 		}

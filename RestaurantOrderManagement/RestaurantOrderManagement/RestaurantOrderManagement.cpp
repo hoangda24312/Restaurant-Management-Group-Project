@@ -27,7 +27,7 @@ int main()
 				if (staff.getRole() == "Waiter")
 				{
 					Waiter waiter(staff.getId(),staff.getName(),staff.getPassword(),staff.getPhone());
-					showOrderWaiter(waiter);
+					showOrderWaiter(staff,waiter);
 				}
 
 			}
