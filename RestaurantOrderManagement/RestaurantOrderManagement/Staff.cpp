@@ -27,6 +27,7 @@ std::optional<Staff> Staff::login(const std::string& staff_id, const std::string
     Staff staff(staff_id, staff_name, hashed_password, phone, role);
 
     return staff;
+}
 
 //all get method
 std::string Staff::getName() const
