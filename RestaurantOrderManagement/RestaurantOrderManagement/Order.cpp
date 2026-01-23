@@ -115,6 +115,16 @@ Order Order::getOrderById(int order_id) //use to find an order with order_id
 	Order order(id, table_number, order_time, status, total_amount, note, customer_name);
 	return order;
 }
+
+//format datetime for UI
+std::string Order::getOrderTimeFormatted() const 
+{
+	std::time_t tt = std::chrono::system_clock::to_time_t(order_time);
+	std::tm* local_tm = std::localtime(&tt);
+	std::stringstream ss;
+	ss << std::put_time(local_tm, "%Y-%m-%d %H:%M");
+	return ss.str();
+}
 //////////////////////////////
 
 
@@ -228,6 +238,7 @@ void Order::setStatus(OrderStatus status)
 
 	this->status = status;
 }
+
 
 ///////////////////////////////////////////
 //cac phuong thuc set

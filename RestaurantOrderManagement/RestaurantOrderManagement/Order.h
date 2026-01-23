@@ -44,4 +44,5 @@ public:
 	void setOrderId(int id);
 	std::string generateOrderItemId();
 	void syncNextItemNoFromItems();
+	std::string getOrderTimeFormatted() const;
 };

@@ -1,12 +1,11 @@
 #include "MainMenu.h"
+#include "waiter.h"
 //title setw(50)
 
 void printLine(char c, const int width)
 {
-	std::cout << std::string(width, c) << std::endl;
+	std::cout << std::string(width, c) << std::endl; // use string to set default line
 }
-
-
 
 void printMenu(const std::vector<MenuItem>& menu_list)
 {
@@ -66,6 +65,41 @@ void printOrderMenu(const std::vector<Order>& order_list)
 			<< std::endl;
 	}
 }
+
+//print when waiter or chef or cashier view order 
+void printOrder(Order order, Staff staff, std::vector<OrderItem> order_item_list)
+{
+	printLine('=');
+	std::cout << std::setw(50) << "ORDER DETAIL - ID: #"<<order.getOrderId() << std::endl;
+	printLine('=');
+
+	std::cout << std::left
+		<< "Table:" << std::setw(5) << order.getTableNumber()
+		<< "Time:" << std::setw(18) << order.getOrderTimeFormatted()
+		<< "Staff:" << staff.getName()
+		<< std::endl;
+	std::cout << "Status:" << enumToString(order.getStatus()) << std::endl;
+	printLine('-');
+
+	std::cout << std::left
+		<< std::setw(35) << "Item name"
+		<< std::setw(15) << "Quantity"
+		<< std::setw(12) << "Price(VND)"
+		<< std::setw(20) << "Subtotal"
+		<< std::endl;
+	printLine('-');
+
+	for (int i = 0; i < order_item_list.size(); i++)
+	{
+		std::cout << std::left
+			<< std::setw(35) << order_item_list[i].calculateCost()
+			<< std::setw(15) << order_list[i].getTableNumber()
+			<< std::setw(12) << enumToString(order_list[i].getStatus())
+			<< std::setw(20) << order_list[i].getNote()
+			<< std::endl;
+	}
+
+
+}
 //void printOrderItemList(std::vector<OrderItem> order_item_list);
-//void printOrder(Order order);
-//void printStaff(std::vector<Staff> staff_list);
+//void printStaffList(std::vector<Staff> staff_list);
