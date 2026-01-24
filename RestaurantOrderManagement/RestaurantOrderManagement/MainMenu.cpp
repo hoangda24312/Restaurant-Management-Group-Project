@@ -226,7 +226,7 @@ void orderModifyWaiter(Order& order,Staff staff)
 				}
 				char confirm;
 				std::cout << "Confirm send to kitchen ? y/n"; std::cin >> confirm;
-				if (confirm == 'y') order.sendToKitchen();
+				if (confirm == 'y') order.sendToKitchen(staff.getId());
 				else continue;
 			}
 
@@ -235,7 +235,7 @@ void orderModifyWaiter(Order& order,Staff staff)
 			{
 				char confirm;
 				std::cout << "Are you sure customer has done their food ? y/n"; std::cin >> confirm;
-				if (confirm == 'y') order.markCompleted();
+				if (confirm == 'y') order.markCompleted(staff.getId());
 				else continue;
 			}
 
@@ -399,7 +399,7 @@ void orderModifyKitchenStaff(Order& order, Staff staff) //called by showOrderKit
 			{
 				char confirm;
 				std::cout << "Confirm set to preapring ? y/n"; std::cin >> confirm;
-				if (confirm == 'y') order.markPreparing();
+				if (confirm == 'y') order.markPreparing(staff.getId());
 				else continue;
 			}
 
@@ -407,7 +407,7 @@ void orderModifyKitchenStaff(Order& order, Staff staff) //called by showOrderKit
 			{
 				char confirm;
 				std::cout << "Are you sure this order is ready ? y/n"; std::cin >> confirm;
-				if (confirm == 'y') order.markReady();
+				if (confirm == 'y') order.markReady(staff.getId());
 				else continue;
 			}
 
