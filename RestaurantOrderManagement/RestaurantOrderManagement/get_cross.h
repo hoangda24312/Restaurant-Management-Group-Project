@@ -27,4 +27,14 @@ inline char readChar()
 }
 #endif
 
+#include <ctime>
+
+inline bool safe_localtime(const std::time_t* tt, std::tm* out)
+{
+#ifdef _WIN32
+    return localtime_s(out, tt) == 0;
+#else
+    return localtime_r(tt, out) != nullptr;
+#endif
+}
 

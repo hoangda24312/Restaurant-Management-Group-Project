@@ -1,5 +1,6 @@
 #include"Order.h"
 #include"Database.h"
+#include "get_cross.h"
 
 std::string Order::generateOrderItemId() {
 	if (next_item_no > 999) throw std::runtime_error("OrderItemId overflow");
@@ -143,7 +144,10 @@ std::string Order::getOrderTimeFormatted() const
 {
 	std::time_t tt = std::chrono::system_clock::to_time_t(order_time);
 	std::tm local_tm{};
-	localtime_s(&local_tm, &tt);
+
+	if (!safe_localtime(&tt, &local_tm))
+		return "invalid time";
+
 	std::stringstream ss;
 	ss << std::put_time(&local_tm, "%Y-%m-%d %H:%M");
 	return ss.str();

@@ -1,12 +1,14 @@
 #include "Invoice.h"
 #include "Database.h"
+#include "get_cross.h"
 
 // convert time to string DateTime MySQL (YYYY-MM-DD HH:MM:SS)
 std::string timePointToString(std::chrono::system_clock::time_point time) {
     std::time_t tt = std::chrono::system_clock::to_time_t(time);
-
     std::tm local_tm{};
-    localtime_s(&local_tm, &tt);
+
+    if (!safe_localtime(&tt, &local_tm))
+        return "invalid time";
 
     std::stringstream ss;
     ss << std::put_time(&local_tm, "%Y-%m-%d %H:%M");
