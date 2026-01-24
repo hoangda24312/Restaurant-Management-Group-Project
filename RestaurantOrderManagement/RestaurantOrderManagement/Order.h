@@ -39,11 +39,11 @@ public:
 	void removeOrderItem(std::string order_item_id);
 	void updateOrderItemQuantity(std::string order_item_id, int quantity);
 	static bool isTableOccupied(int table_number); //check if a table is in used
-	void cancel();
-	void sendToKitchen();
+	void cancel(const std::string& staff_id);
+	void sendToKitchen(const std::string& staff_id);
 	void markPreparing(const std::string& staff_id);
-	void markReady();
-	void markCompleted();
+	void markReady(const std::string& staff_id);
+	void markCompleted(const std::string& staff_id);
 	static Order create(int table_number, std::string note, std::string customer_name);
 	void setStatus(OrderStatus status);
 	void setOrderId(int id);

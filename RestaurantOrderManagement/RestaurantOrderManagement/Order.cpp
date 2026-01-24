@@ -156,41 +156,109 @@ std::string Order::getOrderTimeFormatted() const
 
 
 //all set status method
-void Order::cancel()
+void Order::cancel(const std::string& staff_id)
 {
-	if (this->status == OrderStatus::COMPLETED || this->status == OrderStatus::PREPARING || this->status == OrderStatus::READY)
+	if (this->status == OrderStatus::COMPLETED ||
+		this->status == OrderStatus::PREPARING ||
+		this->status == OrderStatus::READY)
 	{
 		throw std::logic_error("Order already cooked, can't cancel");
 	}
-	this->status = OrderStatus::CANCELLED;
+
 	auto& db = Database::getDB();
-	std::string mysql_status = enumToString(this->status);
-	auto stmt = db.prepare("Update OrderTable set order_status = ? where order_id = ?");
-	stmt->setString(1, mysql_status);
-	stmt->setInt(2, this->order_id);
-	int affected = stmt->executeUpdate();
-	if (affected != 1) {
-		throw std::runtime_error("cancel failed: order not found");
+
+	try
+	{
+		db.execute("START TRANSACTION");
+
+		//Update OrderTable
+		{
+			auto stmt = db.prepare(
+				"UPDATE OrderTable SET order_status = ? WHERE order_id = ?"
+			);
+			stmt->setString(1, enumToString(OrderStatus::CANCELLED));
+			stmt->setInt(2, this->order_id);
+
+			if (stmt->executeUpdate() != 1)
+				throw std::runtime_error("Cancel failed: OrderTable not found");
+		}
+
+		//Update StaffOrder
+		{
+			auto stmt = db.prepare(
+				"UPDATE StaffOrder SET order_status = ? "
+				"WHERE order_id = ? AND staff_id = ?"
+			);
+			stmt->setString(1, enumToString(OrderStatus::CANCELLED));
+			stmt->setInt(2, this->order_id);
+			stmt->setString(3, staff_id);
+
+			if (stmt->executeUpdate() != 1)
+				throw std::runtime_error("Cancel failed: StaffOrder not found");
+		}
+
+		db.execute("COMMIT");
+
+		this->status = OrderStatus::CANCELLED;
+	}
+	catch (...)
+	{
+		db.execute("ROLLBACK");
+		throw;
 	}
 }
-void Order::sendToKitchen()
+
+
+void Order::sendToKitchen(const std::string& staff_id)
 {
-	auto& db = Database::getDB();
-	auto stmt = db.prepare(
-		"UPDATE OrderTable SET order_status = ? WHERE order_id = ?"
-	);
-
-	std::string mysql_status = enumToString(OrderStatus::PENDING);
-	stmt->setString(1, mysql_status);
-	stmt->setInt(2, this->order_id);
-
-	int affected = stmt->executeUpdate();
-	if (affected != 1) {
-		throw std::runtime_error("sendToKitchen failed: order not found");
+	if (this->status != OrderStatus::CREATED)
+	{
+		throw std::logic_error("Only CREATED order can be sent to kitchen");
 	}
 
-	this->status = OrderStatus::PENDING;
+	auto& db = Database::getDB();
+
+	try
+	{
+		db.execute("START TRANSACTION");
+
+		// Update OrderTable
+		{
+			auto stmt = db.prepare(
+				"UPDATE OrderTable SET order_status = ? WHERE order_id = ?"
+			);
+			stmt->setString(1, enumToString(OrderStatus::PENDING));
+			stmt->setInt(2, this->order_id);
+
+			if (stmt->executeUpdate() != 1)
+				throw std::runtime_error("sendToKitchen failed: OrderTable not found");
+		}
+
+		// Update StaffOrder
+		{
+			auto stmt = db.prepare(
+				"UPDATE StaffOrder SET order_status = ? "
+				"WHERE order_id = ? AND staff_id = ?"
+			);
+			stmt->setString(1, enumToString(OrderStatus::PENDING));
+			stmt->setInt(2, this->order_id);
+			stmt->setString(3, staff_id);
+
+			if (stmt->executeUpdate() != 1)
+				throw std::runtime_error("sendToKitchen failed: StaffOrder not found");
+		}
+
+		db.execute("COMMIT");
+
+		this->status = OrderStatus::PENDING;
+	}
+	catch (...)
+	{
+		db.execute("ROLLBACK");
+		throw;
+	}
 }
+
 
 
 //when kitchenstaff press prepaing, deduct automatically
@@ -269,43 +337,107 @@ void Order::markPreparing(const std::string& staff_id)
 
 
 
-void Order::markReady()
+void Order::markReady(const std::string& staff_id)
 {
-	auto& db = Database::getDB();
-	auto stmt = db.prepare(
-		"Update OrderTable set order_status = ? Where order_id = ?"
-	);
-
-	std::string mysql_status = enumToString(OrderStatus::READY);
-	stmt->setString(1, mysql_status);
-	stmt->setInt(2, this->order_id);
-
-	int affected = stmt->executeUpdate();
-	if (affected != 1) {
-		throw std::runtime_error("markReady failed: order not found");
+	if (this->status != OrderStatus::PREPARING)
+	{
+		throw std::logic_error("Only PREPARING order can be marked READY");
 	}
 
-	this->status = OrderStatus::READY;
+	auto& db = Database::getDB();
+
+	try
+	{
+		db.execute("START TRANSACTION");
+
+		// Update OrderTable
+		{
+			auto stmt = db.prepare(
+				"UPDATE OrderTable SET order_status = ? WHERE order_id = ?"
+			);
+			stmt->setString(1, enumToString(OrderStatus::READY));
+			stmt->setInt(2, this->order_id);
+
+			if (stmt->executeUpdate() != 1)
+				throw std::runtime_error("markReady failed: OrderTable not found");
+		}
+
+		//Update StaffOrder
+		{
+			auto stmt = db.prepare(
+				"UPDATE StaffOrder SET order_status = ? "
+				"WHERE order_id = ? AND staff_id = ?"
+			);
+			stmt->setString(1, enumToString(OrderStatus::READY));
+			stmt->setInt(2, this->order_id);
+			stmt->setString(3, staff_id);
+
+			if (stmt->executeUpdate() != 1)
+				throw std::runtime_error("markReady failed: StaffOrder not found");
+		}
+
+		db.execute("COMMIT");
+
+		this->status = OrderStatus::READY;
+	}
+	catch (...)
+	{
+		db.execute("ROLLBACK");
+		throw;
+	}
 }
 
-void Order::markCompleted()
+
+void Order::markCompleted(const std::string& staffId)
 {
-	auto& db = Database::getDB();
-	auto stmt = db.prepare(
-		"Update OrderTable set order_status = ? Where order_id = ?"
-	);
-
-	std::string mysql_status = enumToString(OrderStatus::COMPLETED);
-	stmt->setString(1, mysql_status);
-	stmt->setInt(2, this->order_id);
-
-	int affected = stmt->executeUpdate();
-	if (affected != 1) {
-		throw std::runtime_error("markCompleted failed: order not found");
+	if (this->status != OrderStatus::READY)
+	{
+		throw std::logic_error("Only READY order can be marked COMPLETED");
 	}
 
-	this->status = OrderStatus::COMPLETED;
+	auto& db = Database::getDB();
+
+	try
+	{
+		db.execute("START TRANSACTION");
+
+		// Update OrderTable
+		{
+			auto stmt = db.prepare(
+				"UPDATE OrderTable SET order_status = ? WHERE order_id = ?"
+			);
+			stmt->setString(1, enumToString(OrderStatus::COMPLETED));
+			stmt->setInt(2, this->order_id);
+
+			if (stmt->executeUpdate() != 1)
+				throw std::runtime_error("markCompleted failed: OrderTable not found");
+		}
+
+		// Update StaffOrder
+		{
+			auto stmt = db.prepare(
+				"UPDATE StaffOrder SET order_status = ? "
+				"WHERE order_id = ? AND staff_id = ?"
+			);
+			stmt->setString(1, enumToString(OrderStatus::COMPLETED));
+			stmt->setInt(2, this->order_id);
+			stmt->setString(3, staffId);
+
+			if (stmt->executeUpdate() != 1)
+				throw std::runtime_error("markCompleted failed: StaffOrder not found");
+		}
+
+		db.execute("COMMIT");
+
+		this->status = OrderStatus::COMPLETED;
+	}
+	catch (...)
+	{
+		db.execute("ROLLBACK");
+		throw;
+	}
 }
+
 
 
 void Order::setStatus(OrderStatus status)
