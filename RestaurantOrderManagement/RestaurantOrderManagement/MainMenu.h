@@ -31,4 +31,4 @@ void orderModifyKitchenStaff(Order& order, Staff staff); //called by showOrderKi
 void showMenuScreen();//this will call print menu function
 void showOrderWaiter(Staff staff,Waiter waiter);
 void showOrderKitchenStaff(Staff staff, KitchenStaff kitchen_staff);
-void showOrderCashier(Staff staff, Cashier cashier);
+//void showOrderCashier(Staff staff, Cashier cashier);
