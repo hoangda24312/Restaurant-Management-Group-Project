@@ -113,5 +113,8 @@
     <ClInclude Include="PaymentStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="get_cross.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

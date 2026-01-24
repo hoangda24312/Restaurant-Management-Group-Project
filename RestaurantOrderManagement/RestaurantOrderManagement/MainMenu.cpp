@@ -22,33 +22,36 @@ std::string hashPassword(const std::string& password)
 }
 
 
-std::string inputPassword(std::string& input_password)
+std::string inputPassword()
 {
-	std::string password = "";
+	std::string password;
 	char ch;
+
 	while (true)
 	{
-		ch = _getch();
-		if (ch == 13) break; //this is when user input enter
+		ch = readChar();
 
-		else if (ch == 8) //when user input backspace
+		if (ch == '\n' || ch == '\r' || ch == 13) // Enter
+			break;
+
+		else if (ch == 8 || ch == 127) // Backspace
 		{
-			if (password.length() > 0)
+			if (!password.empty())
 			{
 				password.pop_back();
-				std::cout << "\b \b"; //delete *
+				std::cout << "\b \b" << std::flush;
 			}
-
 		}
 		else
 		{
 			password += ch;
-			std::cout << "*";
+			std::cout << "*" << std::flush;
 		}
 	}
+
+	std::cout << std::endl;
 	return password;
 }
-
 
 //all print function
 void printLine(char c, const int width)

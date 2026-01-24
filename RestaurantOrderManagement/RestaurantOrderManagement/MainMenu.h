@@ -1,12 +1,5 @@
 #pragma once
-
-#ifdef _WIN32
-#include "conio.h"
-#else
-#include <termios.h>
-#include <unistd.h>
-#include <stdio.h>
-#endif
+#include "get_cross.h"
 
 #include "Cashier.h"
 #include "Waiter.h"
