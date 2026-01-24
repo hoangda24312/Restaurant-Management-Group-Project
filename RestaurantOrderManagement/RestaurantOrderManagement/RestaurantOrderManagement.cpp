@@ -17,6 +17,7 @@ int main()
 		{
 			std::string username; std::string password;
 			std::cout << "Staff ID:"; std::cin >> username;
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //delete buffer until \n
 			std::cout << "password:"; password = inputPassword();
 			std::cout << std::endl;
 			auto staffOpt = Staff::login(username, hashPassword(password));

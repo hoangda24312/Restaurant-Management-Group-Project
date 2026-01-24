@@ -1,5 +1,6 @@
 #pragma once
 #include "get_cross.h"
+#include <limits>
 
 #include "Cashier.h"
 #include "Waiter.h"
