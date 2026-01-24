@@ -26,7 +26,7 @@ Invoice Invoice::generate(const Order& order) {
     try {
         auto& db = Database::getDB();
         std::unique_ptr<sql::PreparedStatement> pstmt = db.prepare(
-            "INSERT INTO Invoice (order_id, issue_date, payment_status, total_price) VALUES (?, ?, ?, ?)"
+            "INSERT INTO Invoice (order_id, issue_date, invoice_status, total_price) VALUES (?, ?, ?, ?)"
         );
 
         pstmt->setInt(1, inv.order_id);
@@ -66,7 +66,7 @@ float Invoice::calculateTotalSales() {
     float total = 0.0f;
     try {
         auto& db = Database::getDB();
-        QueryResult qr = db.select("SELECT SUM(total_price) AS total_sales FROM Invoice WHERE payment_status = 'PAID'");
+        QueryResult qr = db.select("SELECT SUM(total_price) AS total_sales FROM Invoice WHERE invoice_status = 'PAID'");
 
         if (qr.rs->next()) {
             total = qr.rs->getDouble("total_sales");
@@ -82,7 +82,7 @@ void Invoice::markPaid() {
     try {
         auto& db = Database::getDB();
         std::unique_ptr<sql::PreparedStatement> pstmt = db.prepare(
-            "UPDATE Invoice SET payment_status = ? WHERE invoice_id = ?"
+            "UPDATE Invoice SET invoice_status = ? WHERE invoice_id = ?"
         );
 
         pstmt->setString(1, "PAID");
@@ -101,7 +101,7 @@ void Invoice::markRefunded() {
     try {
         auto& db = Database::getDB();
         std::unique_ptr<sql::PreparedStatement> pstmt = db.prepare(
-            "UPDATE Invoice SET payment_status = ? WHERE invoice_id = ?"
+            "UPDATE Invoice SET invoice_status = ? WHERE invoice_id = ?"
         );
 
         pstmt->setString(1, "REFUNDED");
