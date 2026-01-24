@@ -6,7 +6,7 @@ Database::Database(const std::string& config_path)
 	{
 		std::ifstream f(config_path);
 		if (!f.is_open()) {
-			throw std::runtime_error("Khong tim thay file JSON tai: " + config_path);
+			throw std::runtime_error("Khong tim thay file JSON tai:RestaurantOrderManagement/" + config_path);
 		}
 		json config;
 		f >> config;
