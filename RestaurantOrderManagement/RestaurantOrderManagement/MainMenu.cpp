@@ -22,7 +22,7 @@ std::string hashPassword(const std::string& password)
 }
 
 
-std::string inputPassword(std::string& password)
+std::string inputPassword(std::string& input_password)
 {
 	std::string password = "";
 	char ch;
