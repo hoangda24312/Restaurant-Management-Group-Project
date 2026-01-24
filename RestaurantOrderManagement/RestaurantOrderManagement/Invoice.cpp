@@ -79,7 +79,6 @@ float Invoice::calculateTotalSales() {
 }
 
 void Invoice::markPaid() {
-    this->payment_status = PaymentStatus::PAID;
     try {
         auto& db = Database::getDB();
         std::unique_ptr<sql::PreparedStatement> pstmt = db.prepare(
@@ -90,6 +89,7 @@ void Invoice::markPaid() {
         pstmt->setInt(2, this->invoice_id);
 
         pstmt->executeUpdate();
+        this->payment_status = PaymentStatus::PAID;
     }
     catch (sql::SQLException& e) {
         std::cout << "SQL Error in markPaid: " << e.what() << std::endl;

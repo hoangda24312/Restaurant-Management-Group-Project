@@ -40,7 +40,7 @@ std::vector<Order> Cashier::viewCompletedOrders()
 
 void Cashier::ProcessPayment(Order order,Invoice invoice) {
 	invoice.markPaid();
-	std::cout << "Da thanh toan thanh cong cho Hoa Don cua Order ID: "
+	std::cout << "Order has been paid, order status has been set to PAID: "
 		<< invoice.getOrderId()
-		<< " voi so tien: " << invoice.calculateTotal(order) << std::endl;
+		<< " with total: " << invoice.calculateTotal(order) << std::endl;
 }

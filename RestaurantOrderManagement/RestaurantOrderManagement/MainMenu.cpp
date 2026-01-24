@@ -193,49 +193,7 @@ void printStaffList(std::vector<Staff> staff_list)
 	printLine('-');
 }
 
-//all screen method
-
-//showmenuscreen function
-void showMenuScreen()
-{
-	auto menu_list = MenuItem::getAllMenuItems();
-	bool menu_screen = true;
-	printMenu(menu_list);
-	do
-	{
-		std::cout << "[0] Logout\t"
-			<< "[1] view only main dish\t"
-			<< "[2] view only drink\n"
-			<< "[3] view only side dish\t"
-			<< "[4] view all dish\n";
-		int choice;
-		std::cout << "Your choice: ";
-		std::cin >> choice;
-		system("cls");
-		switch (choice)
-		{
-		case 0:
-			menu_screen = false;
-			break;
-		case 1:
-			printMenu(menu_list, true, "Main dish");
-			break;
-		case 2:
-			printMenu(menu_list, true, "Drink");
-			break;
-		case 3:
-			printMenu(menu_list, true, "Side dish");
-			break;
-		case 4:
-			printMenu(menu_list);
-			break;
-		default:
-			std::cout << "Incorrect choice, please choose only 1-4";
-			break;
-		}
-
-	} while (menu_screen == true);
-}
+//all modify method
 
 
 //order modify screen which will be called in showOrderWaiter
@@ -244,7 +202,7 @@ void orderModifyWaiter(Order& order,Staff staff)
 	bool modify_order = true;
 	do
 	{
-		std::vector<OrderItem> order_item_list = order.getOrderItems();
+		std::vector<OrderItem> order_item_list = order.getOrderItems(); // get all orderitem in this order
 		printOrder(order, staff, order_item_list);
 		std::cout << "[V] View Menu\t"
 			<< "[S] Send to Kitchen\t"
@@ -423,7 +381,7 @@ void orderModifyKitchenStaff(Order& order, Staff staff) //called by showOrderKit
 	bool modify_order = true;
 	do
 	{
-		std::vector<OrderItem> order_item_list = order.getOrderItems();
+		std::vector<OrderItem> order_item_list = order.getOrderItems(); // get all orderitem in this order
 		printOrder(order, staff, order_item_list);
 		std::cout << "[V] View Menu\t"
 			<< "[A] Set Preparing\t"
@@ -462,6 +420,106 @@ void orderModifyKitchenStaff(Order& order, Staff staff) //called by showOrderKit
 }
 
 
+
+void orderModifyCashier(Order& order, Staff staff, Cashier cashier)
+{
+	bool modify_order = true;
+	do
+	{
+		std::vector<OrderItem> order_item_list = order.getOrderItems(); // get all orderitem in this order
+		printOrder(order, staff, order_item_list);
+		std::cout << "[V] View Menu\t"
+			<< "[P] Process Payment\t"
+			<< "[B] Back\n";
+		char choice;
+		std::cout << "Your choice: "; std::cin >> choice;
+		if (choice == 'V' || choice == 'v')
+		{
+			showMenuScreen();
+
+		}
+
+		else if (choice == 'P' || choice == 'p')
+		{
+			char confirm;; float total_amount;
+			float total = order.getTotalAmount();
+			std::cout << "Amount received: "; std::cin >> total_amount;
+			std::cout << "change: " << (total_amount - total); //how much money cashier will return to customer
+			std::cout << "Confirm ? y/n"; std::cin >> confirm;
+			if (confirm == 'y' || confirm == 'Y')
+			{
+				Invoice invoice = Invoice::generate(order); //generate invoice of this order
+				cashier.ProcessPayment(order, invoice);
+			}
+			else
+			{
+				std::cout << "Payment has been cancelled" << std::endl;
+				continue;
+			}
+		}
+
+		else if (choice == 'B' || choice == 'b')
+		{
+			modify_order = false;
+		}
+
+		else
+		{
+			std::cout << "wrong input, please input what is showed on the screen" << std::endl;
+			continue;
+		}
+
+	} while (modify_order == true);
+
+}
+
+
+
+
+
+//all screen method
+
+//showmenuscreen function
+void showMenuScreen()
+{
+	auto menu_list = MenuItem::getAllMenuItems();
+	bool menu_screen = true;
+	printMenu(menu_list);
+	do
+	{
+		std::cout << "[0] Logout\t"
+			<< "[1] view only main dish\t"
+			<< "[2] view only drink\n"
+			<< "[3] view only side dish\t"
+			<< "[4] view all dish\n";
+		int choice;
+		std::cout << "Your choice: ";
+		std::cin >> choice;
+		system("cls");
+		switch (choice)
+		{
+		case 0:
+			menu_screen = false;
+			break;
+		case 1:
+			printMenu(menu_list, true, "Main dish");
+			break;
+		case 2:
+			printMenu(menu_list, true, "Drink");
+			break;
+		case 3:
+			printMenu(menu_list, true, "Side dish");
+			break;
+		case 4:
+			printMenu(menu_list);
+			break;
+		default:
+			std::cout << "Incorrect choice, please choose only 1-4";
+			break;
+		}
+
+	} while (menu_screen == true);
+}
 
 
 
@@ -571,4 +629,51 @@ void showOrderKitchenStaff(Staff staff, KitchenStaff kitchen_staff)
 		}
 
 	} while (kitchen_screen == true);
+}
+
+
+
+
+//Cashier screen
+void showOrderCashier(Staff staff, Cashier cashier)
+{
+	bool cashier_screen = true;
+	std::vector<Order> order_list = cashier.viewCompletedOrders();
+	do
+	{
+		printOrderMenu(order_list);
+		std::cout << "[V] View Detail(Input ID)\t" << "[0] logout\n";
+		char choice;
+		std::cout << "Choice: "; std::cin >> choice;
+		if (choice == 'V' || choice == 'v')
+		{
+			try
+			{
+				int id;
+				std::cout << "Enter Order ID: "; std::cin >> id;
+				Order order = Order::getOrderById(id);
+				orderModifyCashier(order, staff, cashier);
+
+			}
+			catch (std::runtime_error& e)
+			{
+				std::cout << e.what() << std::endl;
+			}
+		}
+
+
+		else if (choice == '0')
+		{
+			cashier_screen = false;
+		}
+
+
+		else
+		{
+			std::cout << "wrong input, please enter exacly what is on the screen" << std::endl;
+			continue;
+		}
+
+
+	} while (cashier_screen == true);
 }

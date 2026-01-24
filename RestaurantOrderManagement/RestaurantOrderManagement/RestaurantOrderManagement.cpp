@@ -37,6 +37,11 @@ int main()
 					KitchenStaff kitchen(staff.getId(), staff.getName(), staff.getPassword(), staff.getPhone());
 					showOrderKitchenStaff(staff, kitchen);//call kitchen staff function
 				}
+				else if (staff.getRole() == "Cashier")
+				{
+					Cashier cashier(staff.getId(), staff.getName(), staff.getPassword(), staff.getPhone());
+					showOrderCashier(staff, cashier);
+				}
 
 			}
 			else
