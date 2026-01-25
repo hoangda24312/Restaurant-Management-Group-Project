@@ -548,12 +548,12 @@ void showOrderWaiter(Staff staff,Waiter waiter)
 	bool waiter_screen = true; char waiter_choice;
 	do
 	{
-		clearScreen();
 		printOrderMenu(order_list);
 		std::cout << "[N] New Order\t"
 			<< "[V] View Detail(Input ID)\t"
 			<< "[0] logout\n";
 		std::cout << "Choice: "; std::cin >> waiter_choice;
+		clearScreen();
 
 		if (waiter_choice == 'N') //waiter input order detail
 		{
