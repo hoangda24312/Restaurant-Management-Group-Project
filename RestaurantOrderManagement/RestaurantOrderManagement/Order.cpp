@@ -504,7 +504,7 @@ void Order::setNote(const std::string& note)
 
 ////////////////////////////////////////
 //order management
-Order Order::create(int table_number, std::string note, std::string customer_name)
+Order Order::create(int table_number, std::string note, std::string customer_name, const Staff& staff)
 {
 	try
 	{
@@ -512,7 +512,7 @@ Order Order::create(int table_number, std::string note, std::string customer_nam
 		Order order(table_number, note, customer_name);
 
 		auto pstmt = db.prepare(
-			"INSERT INTO OrderTable (table_number, note, customer_name, order_status,total_amount, order_time) "
+			"INSERT INTO OrderTable (table_number, note, customer_name, order_status,total_amount,staff_id order_time) "
 			"VALUES (?, ?, ?, ?, NOW())"
 		);
 
@@ -521,6 +521,7 @@ Order Order::create(int table_number, std::string note, std::string customer_nam
 		pstmt->setString(3, customer_name);
 		pstmt->setString(4, "CREATED");
 		pstmt->setDouble(5, order.getTotalAmount());
+		pstmt->setString(6, staff.getId());
 
 		pstmt->executeUpdate();
 		int order_id = db.getLastInsertOrderId();

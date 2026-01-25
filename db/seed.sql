@@ -77,3 +77,4 @@ INSERT INTO StaffOrder VALUES
 
 select * from Invoice;
 select * from OrderTable;
+select * from StaffOrder;

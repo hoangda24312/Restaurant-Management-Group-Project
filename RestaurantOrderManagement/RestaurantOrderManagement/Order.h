@@ -25,6 +25,8 @@ public:
 	//load order from database
 	Order(const int order_id, const int table_number,const std::chrono::system_clock::time_point& order_time,const OrderStatus status,
 		const float total_amount,const std::string& note,const std::string& customer_name);
+
+	//all get method
 	int getOrderId() const;
 	int getTableNumber() const;
 	float getTotalAmount() const;
@@ -34,6 +36,8 @@ public:
 	std::string getNote() const;
 	static std::vector<Order> getAllOrders();
 	static Order getOrderById(int order_id);
+
+	//all order modify method
 	void addOrderItem(const MenuItem& menu_item, int quantity);
 	void removeOrderItem(std::string order_item_id);
 	void updateOrderItemQuantity(std::string order_item_id, int quantity);
@@ -43,7 +47,7 @@ public:
 	void markPreparing(const std::string& staff_id);
 	void markReady(const std::string& staff_id);
 	void markCompleted(const std::string& staff_id);
-	static Order create(int table_number, std::string note, std::string customer_name);
+	static Order create(int table_number, std::string note, std::string customer_name, const Staff& staff);
 	void setStatus(OrderStatus status);
 	void setOrderId(int id);
 	void setNote(const std::string& _note);

@@ -52,7 +52,7 @@ create table OrderTable
     table_number int not null,
     order_time datetime default current_timestamp,
     total_amount float not null,
-    note varchar(50) not null,
+    note varchar(50),
     order_status ENUM('CREATED','PENDING','PREPARING','READY','COMPLETED','CANCELLED') not null default 'CREATED',
     customer_name varchar(50) not null,
     staff_id char(5) not null,
