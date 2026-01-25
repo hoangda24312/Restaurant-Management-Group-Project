@@ -1,5 +1,6 @@
 #pragma once
-#include "Order.h"
+#include "Staff.h"
+#include "MenuItem.h"
 
 class Manager :public Staff
 {
