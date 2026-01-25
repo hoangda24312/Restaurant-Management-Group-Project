@@ -240,7 +240,7 @@ void Order::sendToKitchen(const std::string& staff_id)
 			);
 			stmt->setString(1, staff_id);
 			stmt->setInt(2, order_id);
-			stmt->setString(3, enumToString(OrderStatus::PREPARING));
+			stmt->setString(3, enumToString(OrderStatus::PENDING));
 			stmt->executeUpdate();
 		}
 
@@ -364,7 +364,7 @@ void Order::markReady(const std::string& staff_id)
 			);
 			stmt->setString(1, staff_id);
 			stmt->setInt(2, order_id);
-			stmt->setString(3, enumToString(OrderStatus::PREPARING));
+			stmt->setString(3, enumToString(OrderStatus::READY));
 			stmt->executeUpdate();
 		}
 
@@ -413,7 +413,7 @@ void Order::markCompleted(const std::string& staff_id)
 			);
 			stmt->setString(1, staff_id);
 			stmt->setInt(2, order_id);
-			stmt->setString(3, enumToString(OrderStatus::PREPARING));
+			stmt->setString(3, enumToString(OrderStatus::COMPLETED));
 			stmt->executeUpdate();
 		}
 
