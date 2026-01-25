@@ -12,6 +12,8 @@ Order Waiter::createOrder(int table_number, std::string customer_name, std::stri
 {
 	Order order = Order::create(table_number, note, customer_name);
 	auto& db = Database::getDB();
+
+	//insert into order table
 	auto stmt = db.prepare(
 		"Insert into OrderTable (table_number,customer_name,note,order_status,total_amount,staff_id, order_time) "
 		"values (?,?,?,?,?,?,now())"
@@ -30,6 +32,21 @@ Order Waiter::createOrder(int table_number, std::string customer_name, std::stri
 
 	int order_id = db.getLastInsertOrderId();
 	order.setOrderId(order_id);
+
+	//insert into staff order
+	auto staff_stmt = db.prepare(
+		"Inser into StaffOrder (staff_id,order_id,order_status,order_time) "
+		"values (?,?,?,now())"
+	);
+	staff_stmt->setString(1, getId());
+	staff_stmt->setInt(2, order_id);
+	staff_stmt->setString(3, enumToString(order.getStatus()));
+
+	int staffAffected = staff_stmt->executeUpdate();
+	if (staffAffected != 1)
+		throw std::runtime_error("createOrder failed (StaffOrder)");
+
+
 	return order;
 }
 
