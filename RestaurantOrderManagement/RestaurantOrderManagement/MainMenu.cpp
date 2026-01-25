@@ -544,10 +544,10 @@ void showMenuScreen()
 //order screen of waiter
 void showOrderWaiter(Staff staff,Waiter waiter)
 {
-	std::vector<Order> order_list = waiter.viewActiveOrder(); //get order list that only waiter see
 	bool waiter_screen = true; char waiter_choice;
 	do
 	{
+		std::vector<Order> order_list = waiter.viewActiveOrder(); //get order list that only waiter see
 		printOrderMenu(order_list);
 		std::cout << "[N] New Order\t"
 			<< "[V] View Detail(Input ID)\t"
@@ -613,15 +613,15 @@ void showOrderWaiter(Staff staff,Waiter waiter)
 //show screen of kitchenstaff
 void showOrderKitchenStaff(Staff staff, KitchenStaff kitchen_staff)
 {
-	std::vector<Order> order_list = kitchen_staff.viewPendingOrders();
 	bool kitchen_screen = true;
 	do
 	{
-		clearScreen();
+		std::vector<Order> order_list = kitchen_staff.viewPendingOrders(); //get list that only chef see
 		printOrderMenu(order_list);
 		std::cout << "[V] View Detail(Input ID)\t" << "[0] logout\n";
 		char choice;
 		std::cout << "Choice: "; std::cin >> choice;
+		clearScreen();
 		if (choice == 'V' || choice == 'v')
 		{
 			try
@@ -656,14 +656,14 @@ void showOrderKitchenStaff(Staff staff, KitchenStaff kitchen_staff)
 void showOrderCashier(Staff staff, Cashier cashier)
 {
 	bool cashier_screen = true;
-	std::vector<Order> order_list = cashier.viewCompletedOrders();
 	do
 	{
-		clearScreen();
+		std::vector<Order> order_list = cashier.viewCompletedOrders(); //get order list that only cashier can see
 		printOrderMenu(order_list);
 		std::cout << "[V] View Detail(Input ID)\t" << "[0] logout\n";
 		char choice;
 		std::cout << "Choice: "; std::cin >> choice;
+		clearScreen();
 		if (choice == 'V' || choice == 'v')
 		{
 			try
