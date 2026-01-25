@@ -183,18 +183,16 @@ void Order::cancel(const std::string& staff_id)
 				throw std::runtime_error("Cancel failed: OrderTable not found");
 		}
 
-		//Update StaffOrder
+		 //INSERT StaffOrder (log)
 		{
 			auto stmt = db.prepare(
-				"UPDATE StaffOrder SET order_status = ? "
-				"WHERE order_id = ? AND staff_id = ?"
+				"INSERT INTO StaffOrder (staff_id, order_id, order_status) "
+				"VALUES (?, ?, ?)"
 			);
-			stmt->setString(1, enumToString(OrderStatus::CANCELLED));
-			stmt->setInt(2, this->order_id);
-			stmt->setString(3, staff_id);
-
-			if (stmt->executeUpdate() != 1)
-				throw std::runtime_error("Cancel failed: StaffOrder not found");
+			stmt->setString(1, staff_id);
+			stmt->setInt(2, order_id);
+			stmt->setString(3, enumToString(OrderStatus::PREPARING));
+			stmt->executeUpdate();
 		}
 
 		db.execute("COMMIT");
@@ -234,18 +232,16 @@ void Order::sendToKitchen(const std::string& staff_id)
 				throw std::runtime_error("sendToKitchen failed: OrderTable not found");
 		}
 
-		// Update StaffOrder
+		 //INSERT StaffOrder (log)
 		{
 			auto stmt = db.prepare(
-				"UPDATE StaffOrder SET order_status = ? "
-				"WHERE order_id = ? AND staff_id = ?"
+				"INSERT INTO StaffOrder (staff_id, order_id, order_status) "
+				"VALUES (?, ?, ?)"
 			);
-			stmt->setString(1, enumToString(OrderStatus::PENDING));
-			stmt->setInt(2, this->order_id);
-			stmt->setString(3, staff_id);
-
-			if (stmt->executeUpdate() != 1)
-				throw std::runtime_error("sendToKitchen failed: StaffOrder not found");
+			stmt->setString(1, staff_id);
+			stmt->setInt(2, order_id);
+			stmt->setString(3, enumToString(OrderStatus::PREPARING));
+			stmt->executeUpdate();
 		}
 
 		db.execute("COMMIT");
@@ -292,7 +288,7 @@ void Order::markPreparing(const std::string& staff_id)
 			recipe.deduct(item.getQuantity());
 		}
 
-		// Update OrderTable (global status)
+		// Update OrderTable
 		{
 			auto stmt = db.prepare(
 				"UPDATE OrderTable SET order_status = ? WHERE order_id = ?"
@@ -304,18 +300,16 @@ void Order::markPreparing(const std::string& staff_id)
 				throw std::runtime_error("Failed to update OrderTable");
 		}
 
-		// Update StaffOrder (staff responsibility)
+		//INSERT StaffOrder (log)
 		{
 			auto stmt = db.prepare(
-				"UPDATE StaffOrder SET order_status = ? "
-				"WHERE order_id = ? AND staff_id = ?"
+				"INSERT INTO StaffOrder (staff_id, order_id, order_status) "
+				"VALUES (?, ?, ?)"
 			);
-			stmt->setString(1, enumToString(OrderStatus::PREPARING));
-			stmt->setInt(2, this->order_id);
-			stmt->setString(3, staff_id);
-
-			if (stmt->executeUpdate() != 1)
-				throw std::runtime_error("Failed to update StaffOrder");
+			stmt->setString(1, staff_id);
+			stmt->setInt(2, order_id);
+			stmt->setString(3, enumToString(OrderStatus::PREPARING));
+			stmt->executeUpdate();
 		}
 
 		// Commit
@@ -362,18 +356,16 @@ void Order::markReady(const std::string& staff_id)
 				throw std::runtime_error("markReady failed: OrderTable not found");
 		}
 
-		//Update StaffOrder
+		//INSERT StaffOrder (log)
 		{
 			auto stmt = db.prepare(
-				"UPDATE StaffOrder SET order_status = ? "
-				"WHERE order_id = ? AND staff_id = ?"
+				"INSERT INTO StaffOrder (staff_id, order_id, order_status) "
+				"VALUES (?, ?, ?)"
 			);
-			stmt->setString(1, enumToString(OrderStatus::READY));
-			stmt->setInt(2, this->order_id);
-			stmt->setString(3, staff_id);
-
-			if (stmt->executeUpdate() != 1)
-				throw std::runtime_error("markReady failed: StaffOrder not found");
+			stmt->setString(1, staff_id);
+			stmt->setInt(2, order_id);
+			stmt->setString(3, enumToString(OrderStatus::PREPARING));
+			stmt->executeUpdate();
 		}
 
 		db.execute("COMMIT");
@@ -388,7 +380,7 @@ void Order::markReady(const std::string& staff_id)
 }
 
 
-void Order::markCompleted(const std::string& staffId)
+void Order::markCompleted(const std::string& staff_id)
 {
 	if (this->status != OrderStatus::READY)
 	{
@@ -413,18 +405,16 @@ void Order::markCompleted(const std::string& staffId)
 				throw std::runtime_error("markCompleted failed: OrderTable not found");
 		}
 
-		// Update StaffOrder
+		//INSERT StaffOrder (log)
 		{
 			auto stmt = db.prepare(
-				"UPDATE StaffOrder SET order_status = ? "
-				"WHERE order_id = ? AND staff_id = ?"
+				"INSERT INTO StaffOrder (staff_id, order_id, order_status) "
+				"VALUES (?, ?, ?)"
 			);
-			stmt->setString(1, enumToString(OrderStatus::COMPLETED));
-			stmt->setInt(2, this->order_id);
-			stmt->setString(3, staffId);
-
-			if (stmt->executeUpdate() != 1)
-				throw std::runtime_error("markCompleted failed: StaffOrder not found");
+			stmt->setString(1, staff_id);
+			stmt->setInt(2, order_id);
+			stmt->setString(3, enumToString(OrderStatus::PREPARING));
+			stmt->executeUpdate();
 		}
 
 		db.execute("COMMIT");
