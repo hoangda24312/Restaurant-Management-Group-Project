@@ -400,16 +400,31 @@ void orderModifyKitchenStaff(Order& order, Staff staff) //called by showOrderKit
 			{
 				char confirm;
 				std::cout << "Confirm set to preapring ? y/n"; std::cin >> confirm;
-				if (confirm == 'y') order.markPreparing(staff.getId());
-				else continue;
+				try
+				{
+					if (confirm == 'y') order.markPreparing(staff.getId());
+
+					else continue;
+				}
+				catch (std::runtime_error& e)
+				{
+					std::cout << e.what() << std::endl;
+				}
 			}
 
 			else if (choice == 'S' || choice == 's')
 			{
 				char confirm;
-				std::cout << "Are you sure this order is ready ? y/n"; std::cin >> confirm;
-				if (confirm == 'y') order.markReady(staff.getId());
-				else continue;
+				try
+				{
+					std::cout << "Are you sure this order is ready ? y/n"; std::cin >> confirm;
+					if (confirm == 'y') order.markReady(staff.getId());
+					else continue;
+				}
+				catch (std::runtime_error& e)
+				{
+					std::cout << e.what() << std::endl;
+				}
 			}
 
 			else if (choice == 'B' || choice == 'b')
