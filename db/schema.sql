@@ -12,7 +12,7 @@ create table Staff
 
 create table Customer
 (
-	customer_id int auto_increment primary key not null,
+	customer_id int auto_increment primary key,
     customer_name varchar(50) not null,
     phone char(10)
 );
