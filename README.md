@@ -1,6 +1,6 @@
 ## IMPORTANT: create a json file before debug the program
 
-## json file will be like this
+json file will be like this
 
 {
 
