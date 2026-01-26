@@ -363,7 +363,7 @@ void orderModifyWaiter(Order& order,Staff staff)
 
 								menu_item = MenuItem::getMenuItemById(menu_item_id);
 
-								if (!menu_item->isAvailable())
+								if (!menu_item->isAvailable()) //check if that menu item is available to add in orderitem
 								{
 									std::cout << "Item is not available\n";
 									retry = true;

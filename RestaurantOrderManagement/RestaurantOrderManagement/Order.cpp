@@ -520,6 +520,12 @@ void Order::removeOrderItem(std::string order_item_id)
 
 void Order::addOrderItem(const MenuItem& menu_item, int quantity)
 {
+	if (!menu_item.isAvailable())
+		throw std::runtime_error("Menu item is not available");
+
+	if (quantity <= 0)
+		throw std::runtime_error("Invalid quantity");
+
     std::string order_item_id = generateOrderItemId();
     OrderItem order_item = OrderItem::create(order_item_id, menu_item, quantity);
 
