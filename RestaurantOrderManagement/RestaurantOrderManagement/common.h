@@ -6,7 +6,6 @@
 #include"include/json.hpp"
 #include"string"
 #include"vector"
-#include "Windows.h"
 #include <algorithm>
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>

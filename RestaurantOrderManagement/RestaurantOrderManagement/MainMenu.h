@@ -14,10 +14,14 @@ std::string hashPassword(const std::string& password);
 
 std::string inputPassword();
 
+//delete buffer
+void cinIgnore();
+
 //checking special word
 bool hasSpecialChar(const std::string& s);
 bool hasLetter(const std::string& s);
 bool hasDigit(const std::string& s);
+
 
 //all print function
 void printLine(char c, const int width = 75);

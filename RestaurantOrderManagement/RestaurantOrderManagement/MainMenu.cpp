@@ -54,6 +54,12 @@ std::string inputPassword()
 	return password;
 }
 
+//delete buffer for string
+void cinIgnore()
+{
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
 
 //all checking function
 bool hasDigit(const std::string& s)
@@ -319,7 +325,7 @@ void orderModifyWaiter(Order& order,Staff staff)
 					if (order_item_choice == 'A' || order_item_choice == 'a')
 					{
 						std::optional<MenuItem> menu_item;
-						bool retry;
+						bool retry = false;
 
 						do
 						{
@@ -343,7 +349,7 @@ void orderModifyWaiter(Order& order,Staff staff)
 								std::cout << e.what() << std::endl;
 								retry = true;
 							}
-						} while (retry);
+						} while (retry == true);
 						int quantity;
 						std::cout << "Enter Quantity: "; std::cin >> quantity;
 						try
@@ -384,7 +390,8 @@ void orderModifyWaiter(Order& order,Staff staff)
 					{
 						std::string new_note;
 						std::cout << "Enter Note:"; 
-						std::cin.ignore(); std::getline(std::cin, new_note);
+						cinIgnore();						
+						std::getline(std::cin, new_note);
 						order.setNote(new_note);
 					}
 
@@ -1052,8 +1059,10 @@ void showMenuMangement(Staff staff, Manager manager)
 			std::string menu_id, menu_name, menu_category;
 			float price; bool is_available;
 			std::cout << "Enter ID  (e,g M0001):"; std::cin >> menu_id;
-			std::cout << "Enter Name: "; std::cin >> menu_name;
-			std::cout << "Enter Category: "; std::cin >> menu_category;
+			cinIgnore(); //delete buffer
+
+			std::cout << "Enter Name: "; std::getline(std::cin, menu_name);
+			std::cout << "Enter Category: "; std::getline(std::cin, menu_category);
 
 			//validate user input
 			bool retry = true;
@@ -1079,7 +1088,7 @@ void showMenuMangement(Staff staff, Manager manager)
 				if (std::cin.fail())
 				{
 					std::cin.clear(); // clear error flag
-					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					cinIgnore();
 					std::cout << "Invalid input. Please enter 1 or 0.\n";
 					continue;
 				}

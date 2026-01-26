@@ -1,9 +1,9 @@
 #pragma once
 #define NOMINMAX
-#include "Windows.h"
 
 #include<chrono>
 #ifdef _WIN32
+#include "Windows.h"
 #include <conio.h>
 inline char readChar()
 {
@@ -51,9 +51,9 @@ inline void clearScreen()
 #endif
 }
 
-namespace DateTimeUtils {
+namespace DateTimeUtils { 
 
-    inline std::chrono::system_clock::time_point
+    inline std::chrono::system_clock::time_point //convert string to datetime
         stringToTimePoint(const std::string& date)
     {
         std::tm tm{};
