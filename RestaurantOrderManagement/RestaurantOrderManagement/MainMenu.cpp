@@ -278,6 +278,7 @@ void orderModifyWaiter(Order& order,Staff staff)
 			<< "[S] Send to Kitchen\t"
 			<< "[C] Completed\n"
 			<< "[U] Update Order\t"
+			<< "[X] Cancel order"
 			<< "[B] Back\n";
 		char choice;
 		std::cout << "choice: "; std::cin >> choice;
@@ -287,13 +288,15 @@ void orderModifyWaiter(Order& order,Staff staff)
 			{
 				showMenuScreen();
 			}
+
 			else if (choice == 'S' || choice == 's')
 			{
-				if (order_item_list.empty())
+				if (order_item_list.empty()) //if an order has no orderitem in it, then it's cant send to kitchen
 				{
 					std::cout << "No orderitem in order, please add orderitem, can't send to kitchen" << std::endl;
 					continue;
 				}
+
 				char confirm;
 				std::cout << "Confirm send to kitchen ? y/n"; std::cin >> confirm;
 				if (confirm == 'y') order.sendToKitchen(staff.getId());
@@ -375,6 +378,7 @@ void orderModifyWaiter(Order& order,Staff staff)
 							if (confirm == 'y')
 							{
 								order.removeOrderItem(order_item_id);
+								std::cout << "This order item has been removed successfully" << std::endl;
 							}
 							else continue;
 						}
@@ -436,9 +440,28 @@ void orderModifyWaiter(Order& order,Staff staff)
 				} while (updating_order == true);
 			}
 
+			else if (choice == 'X' || choice == 'x')
+			{
+				char confirm;
+				std::cout << "Are you sure you want to cancel this order ? y/n" << std::endl;
+				std::cin >> confirm;
+				if (confirm == 'y')
+				{
+					order.cancel(staff.getId());
+					std::cout << "Order has been cancelled successfully" << std::endl;
+				}
+				else continue;
+			}
+
 			else if (choice == 'B' || choice == 'b')
 			{
 				modify_order = false;
+			}
+
+			else
+			{
+				std::cout << "Wrong input, please input as what is showing on the screen" << std::endl;
+				continue;
 			}
 		}
 
@@ -599,7 +622,8 @@ void staffModify(std::vector<Staff>& staff_list, Manager manager)
 				std::string role;
 
 				std::cout << "Enter staff id: "; std::cin >> staff_id;
-				std::cout << "Enter staff name: "; std::cin.ignore(); std::getline(std::cin, staff_name);
+				std::cout << "Enter staff name: "; cinIgnore();
+				std::getline(std::cin, staff_name);
 				std::cout << "Enter staff password: "; std::cin >> password; hash_password = hashPassword(password);
 
 				bool retry;
@@ -724,7 +748,7 @@ void staffModify(std::vector<Staff>& staff_list, Manager manager)
 
 void saleModify(Manager manager)
 {
-	bool modify_sale;
+	bool modify_sale = true;
 	do
 	{
 		printLine('=');
@@ -733,6 +757,7 @@ void saleModify(Manager manager)
 		std::cout << "[1] Date Range\n"
 			<< "[0] Back\n";
 		printLine('-');
+
 		char choice;
 		std::cout << "choice: "; std::cin >> choice;
 
