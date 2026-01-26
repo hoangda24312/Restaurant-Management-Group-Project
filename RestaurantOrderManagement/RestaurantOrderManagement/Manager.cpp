@@ -92,13 +92,17 @@ void Manager::removeMenuItem(std::string item_id) {
 		throw std::runtime_error("Failed to remove menuitem");
 	}
 }
+
+
 void Manager::addStaff(Staff staff) {
 	auto& db = Database::getDB();
-	auto statement = db.prepare("INSERT INTO Staff (staff_id, staff_name, role) VALUES (?,?,?)" );
+	auto statement = db.prepare("INSERT INTO Staff (staff_id, staff_name, password, phone, role) VALUES (?,?,?,?,?)");
 
 	statement->setString(1, staff.getId());
 	statement->setString(2, staff.getName());
-	statement->setString(3, staff.getRole());
+	statement->setString(3, staff.getPassword());
+	statement->setString(4, staff.getPhone());
+	statement->setString(5, staff.getRole());
 
 	int affected = statement->executeUpdate();
 	if (affected != 1)
@@ -106,13 +110,19 @@ void Manager::addStaff(Staff staff) {
 		throw std::runtime_error("Failed to add staff");
 	}
 }
+
+
+
+
 void Manager::updateStaff(std::string staff_id, Staff staff) {
 	auto& db = Database::getDB();
-	auto statement = db.prepare("UPDATE Staff SET staff_name=?, role=? WHERE staff_id=?");
+	auto statement = db.prepare("UPDATE Staff SET staff_name=?, password=?, phone=?, role=? WHERE staff_id=?");
 
 	statement->setString(1, staff.getName());
-	statement->setString(2, staff.getRole());
-	statement->setString(3, staff_id);
+	statement->setString(2, staff.getPassword());
+	statement->setString(3, staff.getPhone());
+	statement->setString(4, staff.getRole());
+	statement->setString(5, staff_id);
 
 	int affected = statement->executeUpdate();
 	if (affected != 1)
@@ -120,6 +130,8 @@ void Manager::updateStaff(std::string staff_id, Staff staff) {
 		throw std::runtime_error("Failed to update staff");
 	}
 }
+
+
 void Manager::removeStaff(std::string staff_id) {
 	auto& db = Database::getDB();
 	auto statement = db.prepare("DELETE FROM Staff WHERE staff_id=?");
