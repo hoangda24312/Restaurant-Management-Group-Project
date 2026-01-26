@@ -26,4 +26,6 @@ public:
 	float calculateTotalSales();
 	void markPaid();
 	void markRefunded();
+
+	void exportToTxt(const Order& order, const Cashier& cashier) const; //print bill
 };

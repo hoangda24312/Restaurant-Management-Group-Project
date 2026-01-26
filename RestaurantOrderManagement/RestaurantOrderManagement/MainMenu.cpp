@@ -311,7 +311,11 @@ void orderModifyWaiter(Order& order,Staff staff)
 						std::cout << e.what() << std::endl;
 					}
 				}
-				else continue;
+				else
+				{
+					std::cout << "Action has been cancelled" << std::endl;
+					continue;
+				}
 			}
 
 
@@ -331,7 +335,11 @@ void orderModifyWaiter(Order& order,Staff staff)
 						std::cout << e.what() << std::endl;
 					}
 				}
-				else continue;
+				else
+				{
+					std::cout << "Action has been cancelled" << std::endl;
+					continue;
+				}
 			}
 
 			//loop to updating order
@@ -405,7 +413,11 @@ void orderModifyWaiter(Order& order,Staff staff)
 								order.removeOrderItem(order_item_id);
 								std::cout << "This order item has been removed successfully" << std::endl;
 							}
-							else continue;
+							else
+							{
+								std::cout << "Action has been cancelled" << std::endl;
+								continue;
+							}
 						}
 						catch (std::runtime_error& e)
 						{
@@ -442,7 +454,11 @@ void orderModifyWaiter(Order& order,Staff staff)
 							{
 								order.updateOrderItemQuantity(order_item_id, new_quantity);
 							}
-							else continue;
+							else
+							{
+								std::cout << "Action has been cancelled" << std::endl;
+								continue;
+							}
 						}
 						catch (std::runtime_error& e)
 						{
@@ -482,7 +498,11 @@ void orderModifyWaiter(Order& order,Staff staff)
 						std::cout << e.what() << std::endl;
 					}
 				}
-				else continue;
+				else
+				{
+					std::cout << "Action has been cancelled" << std::endl;
+					continue;
+				}
 			}
 
 			else if (choice == 'B' || choice == 'b')
@@ -534,7 +554,11 @@ void orderModifyKitchenStaff(Order& order, Staff staff) //called by showOrderKit
 						std::cout << "Order has been marked as preparing successfully" << std::endl;
 					}
 
-					else continue;
+					else
+					{
+						std::cout << "Action has been cancelled" << std::endl;
+						continue;
+					}
 				}
 				catch (std::runtime_error& e)
 				{
@@ -553,7 +577,11 @@ void orderModifyKitchenStaff(Order& order, Staff staff) //called by showOrderKit
 						order.markReady(staff.getId());
 						std::cout << "Order has been marked as ready successfully" << std::endl;
 					}
-					else continue;
+					else
+					{
+						std::cout << "Action has been cancelled" << std::endl;
+						continue;
+					}
 				}
 				catch (std::runtime_error& e)
 				{
@@ -696,7 +724,11 @@ void staffModify(Manager& manager)
 
 					std::cout << "Staff has been added successfully";
 				}
-				else continue;
+				else
+				{
+					std::cout << "Action has been cancelled" << std::endl;
+					continue;
+				}
 
 			}
 			catch (std::runtime_error& e)
@@ -745,7 +777,11 @@ void staffModify(Manager& manager)
 					manager.updateStaff(staff_id,staff);
 					std::cout << "Staff has been updated successfully";
 				}
-				else continue;
+				else
+				{
+					std::cout << "Action has been cancelled" << std::endl;
+					continue;
+				}
 			}
 			catch (std::runtime_error& e)
 			{
@@ -767,7 +803,11 @@ void staffModify(Manager& manager)
 					manager.removeStaff(id);
 					std::cout << "Staff has been removed successfully" << std::endl;
 				}
-				else continue;
+				else
+				{
+					std::cout << "Action has been cancelled" << std::endl;
+					continue;
+				}
 			}
 			catch (std::runtime_error& e)
 			{
@@ -1297,7 +1337,11 @@ void showMenuMangement(Staff staff, Manager manager)
 					std::cout << e.what() << std::endl;
 				}
 			}
-			else continue;
+			else
+			{
+				std::cout << "Action has been cancelled" << std::endl;
+				continue;
+			}
 		}
 
 		else if (choice == 'S' || choice == 's')

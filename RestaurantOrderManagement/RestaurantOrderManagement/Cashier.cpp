@@ -40,9 +40,19 @@ std::vector<Order> Cashier::viewCompletedOrders()
 	}
 }
 
-void Cashier::ProcessPayment(Order order,Invoice invoice) {
+void Cashier::ProcessPayment(Order& order,Invoice& invoice) const {
 	invoice.markPaid();
 	std::cout << "Order has been paid, order status has been set to PAID: "
 		<< invoice.getOrderId()
 		<< " with total: " << invoice.calculateTotal(order) << std::endl;
+
+	char print;
+	std::cout << "Do you want to print bill (y/n)? ";
+	std::cin >> print;
+
+	if (print == 'y' || print == 'Y')
+	{
+		invoice.exportToTxt(order, *this);
+		std::cout << "Bill is being printed as file txt\n";
+	}
 }

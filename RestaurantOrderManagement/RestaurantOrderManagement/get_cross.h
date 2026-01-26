@@ -53,6 +53,18 @@ inline void clearScreen()
 
 namespace DateTimeUtils { 
 
+    inline std::string timePointToString(std::chrono::system_clock::time_point time) {
+        std::time_t tt = std::chrono::system_clock::to_time_t(time);
+        std::tm local_tm{};
+
+        if (!safe_localtime(&tt, &local_tm))
+            return "invalid time";
+
+        std::stringstream ss;
+        ss << std::put_time(&local_tm, "%Y-%m-%d %H:%M");
+        return ss.str();
+    }
+
     inline std::chrono::system_clock::time_point //convert string to datetime
         stringToTimePoint(const std::string& date)
     {

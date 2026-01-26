@@ -4,19 +4,6 @@
 #include "Cashier.h"
 
 // convert time to string DateTime MySQL (YYYY-MM-DD HH:MM:SS)
-std::string timePointToString(std::chrono::system_clock::time_point time) {
-    std::time_t tt = std::chrono::system_clock::to_time_t(time);
-    std::tm local_tm{};
-
-    if (!safe_localtime(&tt, &local_tm))
-        return "invalid time";
-
-    std::stringstream ss;
-    ss << std::put_time(&local_tm, "%Y-%m-%d %H:%M");
-    return ss.str();
-}
-
-
 Invoice Invoice::generate(const Order& order, const Cashier& cashier)
 {
     Invoice inv;
@@ -32,7 +19,7 @@ Invoice Invoice::generate(const Order& order, const Cashier& cashier)
     );
 
     pstmt->setInt(1, inv.order_id);
-    pstmt->setString(2, timePointToString(inv.issue_date));
+    pstmt->setString(2, DateTimeUtils::timePointToString(inv.issue_date));
     pstmt->setString(3, "PENDING");
     pstmt->setDouble(4, inv.total_price);
     pstmt->setString(5, cashier.getId());
@@ -113,4 +100,54 @@ void Invoice::markRefunded() {
     catch (sql::SQLException& e) {
         std::cout << "SQL Error in markRefunded: " << e.what() << std::endl;
     }
+}
+
+
+
+void Invoice::exportToTxt(const Order& order, const Cashier& cashier) const
+{
+    std::ofstream file("invoice_" + std::to_string(order.getOrderId()) + ".txt");
+
+    if (!file.is_open())
+    {
+        std::cerr << "Failed to create invoice file\n";
+        return;
+    }
+
+    file << "==================================================\n";
+    file << "                    ORDER DETAIL - ID: #"
+        << order.getOrderId() << "\n";
+    file << "==================================================\n";
+
+    file << "Table: " << order.getTableNumber()
+        << "          Time: " << order.getOrderTimeFormatted()
+        << "          Staff: " << cashier.getName() << "\n";
+
+    file << "Status: COMPLETED\n";
+    file << "---------------------------------------------------------------------------\n";
+
+    file << std::left
+        << std::setw(25) << "Item Name"
+        << std::setw(18) << "Quantity"
+        << std::setw(18) << "Price (VND)"
+        << "Subtotal\n";
+
+    file << "---------------------------------------------------------------------------\n";
+
+    for (const OrderItem& item : order.getOrderItems())
+    {
+        file << std::left
+            << std::setw(25) << item.getOrderItemName()
+            << std::setw(18) << item.getQuantity()
+            << std::setw(18) << item.getPrice()
+            << item.calculateCost() << "\n";
+    }
+
+    file << "---------------------------------------------------------------------------\n";
+    file << std::right
+        << std::setw(61) << "TOTAL AMOUNT: "
+        << calculateTotal(order) << " VND\n";
+    file << "---------------------------------------------------------------------------\n";
+
+    file.close();
 }
