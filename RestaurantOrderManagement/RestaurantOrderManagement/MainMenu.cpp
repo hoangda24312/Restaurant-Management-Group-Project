@@ -1168,7 +1168,14 @@ void showMenuMangement(Staff staff, Manager manager)
 
 
 			MenuItem item(menu_id, menu_name, price, menu_category, is_available);
-			manager.addMenuItem(item);
+			try
+			{
+				manager.addMenuItem(item);
+			}
+			catch (std::exception& e)
+			{
+				std::cout << e.what() << std::endl;
+			}
 
 			//called when a menuitem is added but there is no ingredient for it
 			if (!InventoryItemMenu::hasRequirement(item.getItemId()))
