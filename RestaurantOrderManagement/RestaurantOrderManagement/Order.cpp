@@ -218,7 +218,7 @@ void Order::sendToKitchen(const std::string& staff_id)
 {
 	if (this->status != OrderStatus::CREATED)
 	{
-		throw std::logic_error("Only CREATED order can be sent to kitchen");
+		throw std::runtime_error("Only CREATED order can be sent to kitchen");
 	}
 
 	auto& db = Database::getDB();
@@ -267,6 +267,11 @@ void Order::sendToKitchen(const std::string& staff_id)
 //when kitchenstaff press prepaing, deduct automatically
 void Order::markPreparing(const std::string& staff_id)
 {
+	if (this->status != OrderStatus::PENDING)
+	{
+		throw std::runtime_error("Only PENDING order can be marked PREPARING");
+	}
+
 	auto& db = Database::getDB();
 	auto items = getOrderItems();
 
@@ -342,7 +347,7 @@ void Order::markReady(const std::string& staff_id)
 {
 	if (this->status != OrderStatus::PREPARING)
 	{
-		throw std::logic_error("Only PREPARING order can be marked READY");
+		throw std::runtime_error("Only PREPARING order can be marked READY");
 	}
 
 	auto& db = Database::getDB();
@@ -391,7 +396,7 @@ void Order::markCompleted(const std::string& staff_id)
 {
 	if (this->status != OrderStatus::READY)
 	{
-		throw std::logic_error("Only READY order can be marked COMPLETED");
+		throw std::runtime_error("Only READY order can be marked COMPLETED");
 	}
 
 	auto& db = Database::getDB();
@@ -521,7 +526,7 @@ void Order::removeOrderItem(std::string order_item_id)
 	if (affected != 1) {
 		throw std::runtime_error("removeOrderItem failed: item not found");
 	}
-	recalculateTotalAmount();
+	recalculateTotalAmount(); //calculate order total price after add order item
 }
 
 
@@ -533,7 +538,7 @@ void Order::addOrderItem(const MenuItem& menu_item, int quantity)
 	if (quantity <= 0)
 		throw std::runtime_error("Invalid quantity");
 
-    std::string order_item_id = generateOrderItemId();
+    std::string order_item_id = generateOrderItemId(); //generate order item id
     OrderItem order_item = OrderItem::create(order_item_id, menu_item, quantity);
 
     auto& db = Database::getDB();
@@ -552,7 +557,7 @@ void Order::addOrderItem(const MenuItem& menu_item, int quantity)
     if (affected != 1) {
         throw std::runtime_error("addOrderItem failed");
     }
-	recalculateTotalAmount();
+	recalculateTotalAmount(); //calculate order total price after add order item
 }
 
 
@@ -572,7 +577,7 @@ void Order::updateOrderItemQuantity(std::string order_item_id, int quantity)
 	if (affected != 1) {
 		throw std::runtime_error("updateOrderItemQuantity failed: item not found");
 	}
-	recalculateTotalAmount();
+	recalculateTotalAmount(); //calculate order total price after add order item
 }
 
 bool Order::isTableOccupied(int table_number)

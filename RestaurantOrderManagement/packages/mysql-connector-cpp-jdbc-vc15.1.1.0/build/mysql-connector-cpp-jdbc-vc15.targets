@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup />
+  
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)..\lib\native\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <Link>
+      <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\lib\native\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <Link>
+      <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\lib\native\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'">
+    <Link>
+      <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\lib\native\x86\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'">
+    <Link>
+      <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\lib\native\x86\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalDependencies>mysqlcppconn.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  
+  <Target Name="Common_AfterBuild" AfterTargets="AfterBuild">
+  </Target>
+  
+  <Target Name="AfterBuild_Debug_x64" Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" AfterTargets="AfterBuild">
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)..\lib\native\x64\libmysql.dll" DestinationFiles="$(TargetDir)libmysql.dll" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)..\lib\native\x64\Debug\mysqlcppconn.dll" DestinationFiles="$(TargetDir)mysqlcppconn.dll" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)..\lib\native\x64\Debug\mysqlcppconn.pdb" DestinationFiles="$(TargetDir)mysqlcppconn.pdb" SkipUnchangedFiles="true" />
+  </Target>
+  
+  <Target Name="AfterBuild_Release_x64" Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" AfterTargets="AfterBuild">
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)..\lib\native\x64\libmysql.dll" DestinationFiles="$(TargetDir)libmysql.dll" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)..\lib\native\x64\Release\mysqlcppconn.dll" DestinationFiles="$(TargetDir)mysqlcppconn.dll" SkipUnchangedFiles="true" />
+  </Target>
+  
+  <Target Name="AfterBuild_Debug_x86" Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" AfterTargets="AfterBuild">
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)..\lib\native\x86\libmysql.dll" DestinationFiles="$(TargetDir)libmysql.dll" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)..\lib\native\x86\Debug\mysqlcppconn.dll" DestinationFiles="$(TargetDir)mysqlcppconn.dll" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)..\lib\native\x86\Debug\mysqlcppconn.pdb" DestinationFiles="$(TargetDir)mysqlcppconn.pdb" SkipUnchangedFiles="true" />
+  </Target>
+  
+  <Target Name="AfterBuild_Release_x86" Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'" AfterTargets="AfterBuild">
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)..\lib\native\x86\libmysql.dll" DestinationFiles="$(TargetDir)libmysql.dll" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)..\lib\native\x86\Release\mysqlcppconn.dll" DestinationFiles="$(TargetDir)mysqlcppconn.dll" SkipUnchangedFiles="true" />
+  </Target>
+  
+</Project>

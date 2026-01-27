@@ -1,0 +1,43 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Propriedades comuns -->
+  <PropertyGroup>
+    <OpenSSLRoot>$(MSBuildThisFileDirectory)</OpenSSLRoot>
+    <OpenSSLInclude>$(OpenSSLRoot)include</OpenSSLInclude>
+    <OpenSSLLibRelease>$(OpenSSLRoot)lib\x64\Release</OpenSSLLibRelease>
+    <OpenSSLLibDebug>$(OpenSSLRoot)lib\x64\Debug</OpenSSLLibDebug>
+  </PropertyGroup>
+
+  <!-- x64 Release -->
+  <ItemDefinitionGroup Condition="'$(Platform)' == 'x64' and '$(Configuration)' == 'Release'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(OpenSSLInclude);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(OpenSSLLibRelease);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+        libssl.lib;libcrypto.lib;ws2_32.lib;crypt32.lib;%(AdditionalDependencies)
+      </AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /D "$(MSBuildThisFileDirectory)bin\x64\Release\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+
+  <!-- x64 Debug -->
+  <ItemDefinitionGroup Condition="'$(Platform)' == 'x64' and '$(Configuration)' == 'Debug'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(OpenSSLInclude);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(OpenSSLLibDebug);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+        libssl.lib;libcrypto.lib;ws2_32.lib;crypt32.lib;%(AdditionalDependencies)
+      </AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /D "$(MSBuildThisFileDirectory)bin\x64\Debug\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+
+</Project>

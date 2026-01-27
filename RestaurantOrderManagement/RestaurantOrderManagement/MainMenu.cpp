@@ -146,7 +146,7 @@ void printMenu(const std::vector<MenuItem>& menu_list, bool filter, std::string 
 void loginScreen()
 {
 	printLine('=');
-	std::cout << center("SON TUNG ATM RESTAURANT",70) << std::endl;
+	std::cout << center("SON TUNG ATM RESTAURANT",75) << std::endl;
 	printLine('=');
 	std::cout << "1.Customer" << std::endl;
 	std::cout << "2.Staff" << std::endl;
@@ -157,7 +157,7 @@ void loginScreen()
 void printOrderMenu(const std::vector<Order>& order_list)
 {
 	printLine('=');
-	std::cout << center("CURRENT ORDERS LIST",70) << std::endl;
+	std::cout << center("CURRENT ORDERS LIST",75) << std::endl;
 	printLine('=');
 	std::cout << std::left
 		<< std::setw(10) << "Order ID"
@@ -195,7 +195,7 @@ void printOrderItemList(std::vector<OrderItem> order_item_list)
 void printOrder(Order order, Staff staff, std::vector<OrderItem> order_item_list)
 {
 	printLine('=');
-	std::cout << center(std::string("ORDER DETAIL - ID: #") + std::to_string(order.getOrderId()), 70) << std::endl;
+	std::cout << center(std::string("ORDER DETAIL - ID: #") + std::to_string(order.getOrderId()), 75) << std::endl;
 	printLine('=');
 
 	std::cout << std::left
@@ -251,7 +251,7 @@ void printStaffList(std::vector<Staff> staff_list)
 void printMenuManagement(std::vector<MenuItem> menu_list)
 {
 	printLine('-');
-	std::cout << center("MENU",70) << std::endl;
+	std::cout << center("MENU",75) << std::endl;
 	printLine('-');
 	std::cout << std::left
 		<< std::setw(6) << "ID"
