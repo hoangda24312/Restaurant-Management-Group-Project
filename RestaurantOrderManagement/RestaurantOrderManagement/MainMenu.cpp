@@ -54,6 +54,19 @@ std::string inputPassword()
 	return password;
 }
 
+std::string center(std::string word, int width)
+{
+	int pad = width - word.size();
+	if (pad <=0) return word;
+
+	int padding = pad / 2; //left padding
+	int remain_padding = pad - padding; //right padding
+
+	return(std::string(padding, ' ') + word + std::string(remain_padding, ' '));
+}
+
+
+
 //delete buffer for string
 void cinIgnore()
 {
@@ -106,7 +119,7 @@ void printLine(char c, const int width)
 void printMenu(const std::vector<MenuItem>& menu_list, bool filter, std::string category)
 {
 	printLine('-');
-	std::cout << std::setw(50) << "MENU" << std::endl;
+	std::cout << center("Menu",70) << std::endl;
 	printLine('-');
 	std::cout << std::left
 		<< std::setw(6) << "ID"
@@ -133,7 +146,7 @@ void printMenu(const std::vector<MenuItem>& menu_list, bool filter, std::string 
 void loginScreen()
 {
 	printLine('=');
-	std::cout << std::setw(50)<<"SON TUNG ATM RESTAURANT" << std::endl;
+	std::cout << center("SON TUNG ATM RESTAURANT",70) << std::endl;
 	printLine('=');
 	std::cout << "1.Customer" << std::endl;
 	std::cout << "2.Staff" << std::endl;
@@ -144,7 +157,7 @@ void loginScreen()
 void printOrderMenu(const std::vector<Order>& order_list)
 {
 	printLine('=');
-	std::cout << std::setw(50) << "CURRENT ORDERS LIST" << std::endl;
+	std::cout << center("CURRENT ORDERS LIST",70) << std::endl;
 	printLine('=');
 	std::cout << std::left
 		<< std::setw(10) << "Order ID"
@@ -182,7 +195,7 @@ void printOrderItemList(std::vector<OrderItem> order_item_list)
 void printOrder(Order order, Staff staff, std::vector<OrderItem> order_item_list)
 {
 	printLine('=');
-	std::cout << std::setw(50) << "ORDER DETAIL - ID: #"<<order.getOrderId() << std::endl;
+	std::cout << center(std::string("ORDER DETAIL - ID: #") + std::to_string(order.getOrderId()), 70) << std::endl;
 	printLine('=');
 
 	std::cout << std::left
@@ -212,7 +225,7 @@ void printOrder(Order order, Staff staff, std::vector<OrderItem> order_item_list
 void printStaffList(std::vector<Staff> staff_list)
 {
 	printLine('=');
-	std::cout << std::setw(50) << "STAFF MANAGEMENT" << std::endl;
+	std::cout <<center("STAFF MANAGEMENT",70) << std::endl;
 	printLine('=');
 
 	std::cout << std::left
@@ -238,7 +251,7 @@ void printStaffList(std::vector<Staff> staff_list)
 void printMenuManagement(std::vector<MenuItem> menu_list)
 {
 	printLine('-');
-	std::cout << std::setw(50) << "MENU" << std::endl;
+	std::cout << center("MENU",70) << std::endl;
 	printLine('-');
 	std::cout << std::left
 		<< std::setw(6) << "ID"
@@ -248,6 +261,8 @@ void printMenuManagement(std::vector<MenuItem> menu_list)
 		<< std::setw(10) << "Available"
 		<< std::endl;
 	printLine('-');
+
+	//print all menuitem
 	for (int i = 0; i < menu_list.size(); i++)
 	{
 		std::cout << std::left
@@ -620,24 +635,24 @@ void orderModifyCashier(Order& order, Staff staff, Cashier cashier)
 
 		else if (choice == 'P' || choice == 'p')
 		{
-			char confirm;; float total_amount;
-			float total = order.getTotalAmount();
+			char confirm;
+			float total = order.getTotalAmount(); //get money that customer has to pay
 			bool retry = false;
 
-			do //check if customer give enough money
+			float total_amount = 0; //check if customer give enough money
+			while (true)
 			{
-				retry = false;
-				std::cout << "Amount received: "; std::cin >> total_amount;
-				if (total_amount < total)
-				{
-					std::cout << "Not enough money, please input again";
-					std::cin >> total_amount;
-					retry = true;
-				}
-			} while (retry == true);
+				std::cout << "Amount received: ";
+				std::cin >> total_amount;
 
-			std::cout << "change: " << (total_amount - total); //how much money cashier will return to customer
-			std::cout << "Confirm ? y/n"; std::cin >> confirm;
+				if (total_amount >= total)
+					break;
+
+				std::cout << "Not enough money, please input again\n";
+			}
+
+			std::cout << "change: " << (total_amount - total) << std::endl;; //how much money cashier will return to customer
+			std::cout << "Confirm ? y/n "; std::cin >> confirm;
 			if (confirm == 'y' || confirm == 'Y')
 			{
 				Invoice invoice = Invoice::generate(order,cashier); //generate invoice of this order
@@ -697,7 +712,7 @@ void staffModify(Manager& manager)
 				std::cout << "Enter staff id: "; std::cin >> staff_id;
 				std::cout << "Enter staff name: "; cinIgnore();
 				std::getline(std::cin, staff_name);
-				std::cout << "Enter staff password: "; std::cin >> password; hash_password = hashPassword(password);
+				std::cout << "Enter staff password: "; std::cin >> password; hash_password = hashPassword(password); //hash password before saving into database
 
 				bool retry;
 				do
@@ -1040,6 +1055,7 @@ void showOrderKitchenStaff(Staff staff, KitchenStaff kitchen_staff)
 		{
 			try
 			{
+				//
 				int id;
 				std::cout << "Enter order id: "; std::cin >> id;
 				Order order = Order::getOrderById(id);
@@ -1156,7 +1172,7 @@ void showMenuMangement(Staff staff, Manager manager)
 	bool manager_screen = true;
 	do
 	{
-		std::vector<MenuItem> menu_list = MenuItem::getAllMenuItems();
+		std::vector<MenuItem> menu_list = MenuItem::getAllMenuItems(); //get all menu item currently in database
 		printMenu(menu_list);
 		std::cout << "[A] Add New Dish\t"
 			<< "[E] Edit dish\t"
@@ -1356,6 +1372,7 @@ void showMenuMangement(Staff staff, Manager manager)
 		else if (choice == 'V' || choice == 'v')
 		{
 			//call sale report modify
+
 			clearScreen();
 			saleModify(manager);
 		}

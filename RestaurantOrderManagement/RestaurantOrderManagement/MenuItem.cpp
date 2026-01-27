@@ -47,6 +47,7 @@ std::vector<MenuItem> MenuItem::getAllMenuItems()
 	auto& db = Database::getDB();
 	std::vector<MenuItem> menu_list;
 	auto qr = db.select("Select * from MenuItem");
+
 	while (qr.rs->next())
 	{
 		std::string item_id = qr.rs->getString("item_id");
@@ -54,6 +55,7 @@ std::vector<MenuItem> MenuItem::getAllMenuItems()
 		float price = qr.rs->getDouble("price");
 		std::string category = qr.rs->getString("category");
 		bool is_available = qr.rs->getBoolean("is_availabe");
+
 		MenuItem item(item_id, item_name, price, category, is_available);
 		menu_list.push_back(item);
 	}

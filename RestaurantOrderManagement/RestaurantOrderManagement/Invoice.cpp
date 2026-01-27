@@ -66,15 +66,16 @@ float Invoice::calculateTotalSales() {
     return total;
 }
 
-void Invoice::markPaid() {
+void Invoice::markPaid(const Order& order) {
     try {
         auto& db = Database::getDB();
         std::unique_ptr<sql::PreparedStatement> pstmt = db.prepare(
-            "UPDATE Invoice SET invoice_status = ? WHERE invoice_id = ?"
+            "UPDATE Invoice SET invoice_status = ? WHERE invoice_id = ? and order_id = ?"
         );
 
         pstmt->setString(1, "PAID");
         pstmt->setInt(2, this->invoice_id);
+        pstmt->setInt(3, order.getOrderId());
 
         pstmt->executeUpdate();
         this->payment_status = PaymentStatus::PAID;
@@ -84,16 +85,17 @@ void Invoice::markPaid() {
     }
 }
 
-void Invoice::markRefunded() {
+void Invoice::markRefunded(const Order& order) {
     this->payment_status = PaymentStatus::REFUNDED;
     try {
         auto& db = Database::getDB();
         std::unique_ptr<sql::PreparedStatement> pstmt = db.prepare(
-            "UPDATE Invoice SET invoice_status = ? WHERE invoice_id = ?"
+            "UPDATE Invoice SET invoice_status = ? WHERE invoice_id = ? and order_id = ?"
         );
 
         pstmt->setString(1, "REFUNDED");
         pstmt->setInt(2, this->invoice_id);
+        pstmt->setInt(3, order.getOrderId());
 
         pstmt->executeUpdate();
     }

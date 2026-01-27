@@ -14,9 +14,10 @@ std::vector<Order> Cashier::viewCompletedOrders()
 		//return result, then convert set to vector
 		auto qr = db.select("SELECT o.* FROM OrderTable o LEFT JOIN Invoice i ON o.order_id = i.order_id "
 			"WHERE o.order_status = 'COMPLETED' "
-			"AND(i.invoice_status IS NULL OR i.invoice_status != 'PAID');");
+			"AND( i.invoice_status IS NULL OR i.invoice_status != 'PAID')");
 		while (qr.rs->next())
 		{
+			//get basic information
 			int order_id = qr.rs->getInt("order_id");
 			int table_num = qr.rs->getInt("table_number");
 			OrderStatus status = stringToEnum(qr.rs->getString("order_status"));
@@ -30,6 +31,7 @@ std::vector<Order> Cashier::viewCompletedOrders()
 			std::stringstream ss(timeStr);
 			ss >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");	//date
 			std::chrono::system_clock::time_point order_time = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+
 			Order order(order_id, table_num, order_time, status, total_amount, note, cus_name);
 			order_list.push_back(order);
 		}
@@ -41,7 +43,7 @@ std::vector<Order> Cashier::viewCompletedOrders()
 }
 
 void Cashier::ProcessPayment(Order& order,Invoice& invoice) const {
-	invoice.markPaid();
+	invoice.markPaid(order);
 	std::cout << "Order has been paid, order status has been set to PAID: "
 		<< invoice.getOrderId()
 		<< " with total: " << invoice.calculateTotal(order) << std::endl;

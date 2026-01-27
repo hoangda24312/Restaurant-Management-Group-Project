@@ -6,13 +6,13 @@ std::string Order::generateOrderItemId() {
 	if (next_item_no > 999) throw std::runtime_error("OrderItemId overflow");
 	std::ostringstream oss; //string id format
 	oss << "OM";
-	oss << std::setw(3);
-	oss << std::setfill('0');
+	oss << std::setw(3); // set format to OM###
+	oss << std::setfill('0'); //set them to OM000
 	oss << next_item_no++;
 	return oss.str();
 }
 
-Order::Order(int table_number, const std::string& customer_name, const std::string& note):
+Order::Order(int table_number, const std::string& customer_name, const std::string& note): //called when order first created
 	order_id(0), table_number(table_number), order_time(std::chrono::system_clock::now()), status(OrderStatus::CREATED),
 	total_amount(0.0), note(note), customer_name(customer_name),next_item_no(1){}
 
@@ -22,7 +22,7 @@ Order::Order(const int order_id,const int table_number,const std::chrono::system
 	order_id(order_id), table_number(table_number), order_time(order_time), status(status),
 	total_amount(total_amount), note(note), customer_name(customer_name),next_item_no(1)
 {
-	syncNextItemNoFromItems();
+	syncNextItemNoFromItems(); // set next_item_no of orderitem to increase if there is 2 orderitem then it is OM001, OM002
 }
 
 void Order::recalculateTotalAmount() //use to update order cost when an orderitem is add,remove or update
@@ -79,18 +79,21 @@ std::vector<Order> Order::getAllOrders() //return all order in database
 	auto qr = db.select("Select * from OrderTable");
 	while (qr.rs->next())
 	{
+		//get basic information
 		int id = qr.rs->getInt("order_id");
 		int table_number = qr.rs->getInt("table_number");
 		OrderStatus status = stringToEnum(qr.rs->getString("order_status"));
 		float total_amount = qr.rs->getDouble("total_amount");
 		std::string note = qr.rs->getString("note");
 		std::string customer_name = qr.rs->getString("customer_name");
+
 		//map datetime
 		std::string timeStr = qr.rs->getString("order_time");
-		std::tm tm = {};
-		std::istringstream ss(timeStr);
-		ss >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
+		std::tm tm = {}; //create struct tm
+		std::istringstream ss(timeStr); // format string to number
+		ss >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S"); //format to datetime
 		std::chrono::system_clock::time_point order_time = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+
 		Order order(id, table_number, order_time, status, total_amount, note, customer_name);
 		order_list.push_back(order);
 	}
@@ -123,12 +126,15 @@ Order Order::getOrderById(int order_id) //use to find an order with order_id
 	{
 		throw std::runtime_error("Order not found");
 	}
+
+	//get basic information
 	int id = qr.rs->getInt("order_id");
 	int table_number = qr.rs->getInt("table_number");
 	OrderStatus status = stringToEnum(qr.rs->getString("order_status"));
 	float total_amount = qr.rs->getDouble("total_amount");
 	std::string note = qr.rs->getString("note");
 	std::string customer_name = qr.rs->getString("customer_name");
+
 	//map datetime
 	std::string timeStr = qr.rs->getString("order_time");
 	std::tm tm = {};
@@ -136,6 +142,7 @@ Order Order::getOrderById(int order_id) //use to find an order with order_id
 	ss >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
 	std::chrono::system_clock::time_point order_time = std::chrono::system_clock::from_time_t(std::mktime(&tm));
 	Order order(id, table_number, order_time, status, total_amount, note, customer_name);
+
 	return order;
 }
 
@@ -145,7 +152,7 @@ std::string Order::getOrderTimeFormatted() const
 	std::time_t tt = std::chrono::system_clock::to_time_t(order_time);
 	std::tm local_tm{};
 
-	if (!safe_localtime(&tt, &local_tm))
+	if (!safe_localtime(&tt, &local_tm)) //call safe localtime from get_cross
 		return "invalid time";
 
 	std::stringstream ss;
@@ -218,7 +225,7 @@ void Order::sendToKitchen(const std::string& staff_id)
 
 	try
 	{
-		db.execute("START TRANSACTION");
+		db.execute("START TRANSACTION"); //use transaction in case update or insert fail we can roll back
 
 		// Update OrderTable
 		{
@@ -494,7 +501,7 @@ void Order::setNote(const std::string& note)
 
 ////////////////////////////////////////
 //order management
-Order Order::create(int table_number, std::string note, std::string customer_name)
+Order Order::create(int table_number, std::string note, std::string customer_name) //called by cashier
 {
 	Order order(table_number, customer_name, note);
 	return order;
@@ -570,6 +577,7 @@ void Order::updateOrderItemQuantity(std::string order_item_id, int quantity)
 
 bool Order::isTableOccupied(int table_number)
 {
+	//count table currently in active to check if it is occupied
 	auto& db = Database::getDB();
 	auto qr = db.select(
 		"SELECT COUNT(*) AS cnt FROM OrderTable "
@@ -578,5 +586,5 @@ bool Order::isTableOccupied(int table_number)
 	);
 
 	qr.rs->next();
-	return qr.rs->getInt("cnt") > 0;
+	return qr.rs->getInt("cnt") > 0; 
 }

@@ -11,11 +11,12 @@
 
 //hash password
 std::string hashPassword(const std::string& password);
-
 std::string inputPassword();
+std::string center(std::string word, int width); //center title;
 
 //delete buffer
 void cinIgnore();
+
 
 //checking special word
 bool hasSpecialChar(const std::string& s);

@@ -98,4 +98,4 @@ create table StaffOrder
     FOREIGN KEY(staff_id) REFERENCES Staff(staff_id)
 );
 
-select*from staffOrder;
+select*from Invoice;
